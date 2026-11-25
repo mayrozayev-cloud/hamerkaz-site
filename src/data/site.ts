@@ -1,8 +1,8 @@
 // Business facts. Fields set to null are still missing from the owner and must be filled before launch.
 export const business = {
   name: 'המרכז למיזוג וחיטוי',
-  phone: null as string | null,        // e.g. '050-1234567'  TODO: owner to supply
-  whatsapp: null as string | null,     // international format without '+', e.g. '972501234567'  TODO
+  phone: '050-447-6459' as string | null,
+  whatsapp: '972504476459' as string | null,
   email: null as string | null,
   url: 'https://hamerkaz-site.vercel.app', // TODO: replace with the real domain
   areas: ['קריית גת', 'אשקלון', 'אשדוד', 'רחובות', 'ראשון לציון', 'מודיעין', 'בית שמש', 'ירושלים', 'גוש דן', 'פתח תקווה', 'ראש העין', 'הרצליה', 'כפר סבא', 'רעננה', 'נתניה', 'חדרה'],
