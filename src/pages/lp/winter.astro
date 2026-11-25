@@ -14,7 +14,7 @@ const reels = [1, 2, 3].map((n) => ({ src: `/video/reel${n}.mp4`, poster: `/vide
   <PriceCalc />
   <Symptoms />
   <section class="section on-duct" id="work"><div class="wrap stack"><h2>ככה זה נראה אצלנו</h2>
-    <div class="reels">{reels.map((r) => <video controls playsinline preload="none" poster={r.poster} width="720" height="1280"><source src={r.src} type="video/mp4" /></video>)}</div>
+    <div class="reels" tabindex="0" role="region" aria-label="סרטונים מהשטח, אפשר לגלול לצדדים">{reels.map((r) => <video controls playsinline preload="none" poster={r.poster} width="720" height="1280"><source src={r.src} type="video/mp4" /></video>)}</div>
   </div></section>
   <Proof part="tst" />
   <QuoteWizard wizard={false} />
