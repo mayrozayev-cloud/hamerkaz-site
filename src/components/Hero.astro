@@ -1,103 +1,89 @@
 ---
 import Icon from './Icon.astro';
 import { guarantees, waLink } from '../data/site';
-const blades = Array.from({ length: 11 });
 ---
 <section class="hero" aria-labelledby="hero-title">
-  <div class="wrap hero-grid">
-    <div class="h-copy">
+  <video class="bg" autoplay muted loop playsinline preload="metadata" poster="/video/hero-wide-poster.jpg" aria-hidden="true" tabindex="-1">
+    <source src="/video/hero-loop.webm" type="video/webm" media="(max-width: 760px)" />
+    <source src="/video/hero-loop.mp4" type="video/mp4" media="(max-width: 760px)" />
+    <source src="/video/hero-wide.webm" type="video/webm" />
+    <source src="/video/hero-wide.mp4" type="video/mp4" />
+  </video>
+  <div class="shade" aria-hidden="true"></div>
+
+  <div class="wrap content">
+    <div class="copy">
       <h1 id="hero-title">האוויר שאתם נושמים מתחיל בתוך המזגן שלכם.</h1>
       <p class="sub">ניקוי וחיטוי מקצועי של מערכות מיזוג ותעלות אוויר, בטכנולוגיה מתקדמת ובשיטת ניקוי אמריקאית.</p>
-    </div>
-
-    <figure class="grille" data-grille>
-      <div class="frame">
-        <video class="feed" autoplay muted loop playsinline preload="metadata" poster="/video/hero-poster.jpg" aria-label="צילום אמיתי מעבודה: פתיחת תריס, שאיבת תעלה ושק האבק שנשאב">
-          <source src="/video/hero-loop.webm" type="video/webm" />
-          <source src="/video/hero-loop.mp4" type="video/mp4" />
-        </video>
-        <div class="blades" aria-hidden="true">{blades.map(() => <span class="blade"></span>)}</div>
-      </div>
-      <figcaption>צילום אמיתי מעבודה שלנו</figcaption>
-    </figure>
-
-    <div class="h-act">
       <div class="ctas">
         <a class="btn btn-primary" href="#quote">קבלת הצעת מחיר</a>
-        <a class="btn btn-navy" href="#quote" data-open-wizard>התאמת הצעה אישית</a>
-        <a class="btn btn-line" href="#work"><Icon name="play" />צפו בתוצאות שלנו</a>
+        <a class="btn btn-ghost" href="#quote" data-open-wizard>התאמת הצעה אישית</a>
+        <a class="btn btn-ghost" href="#work"><Icon name="play" />צפו בתוצאות</a>
       </div>
-      <ul class="promises">
-        {guarantees.map((g) => <li><Icon name="check" /><span><b>{g.title}</b> <small>{g.note}</small></span></li>)}
-      </ul>
-      <a class="wa-inline" href={waLink()}><Icon name="whatsapp" />או כתבו לנו בוואטסאפ</a>
     </div>
+    <ul class="promises">
+      {guarantees.map((g) => <li><Icon name="check" /><span><b>{g.title}</b><small>{g.note}</small></span></li>)}
+    </ul>
   </div>
+  <p class="credit">צילום אמיתי מעבודה שלנו</p>
+  <a class="wa-float" href={waLink()} aria-label="כתבו לנו בוואטסאפ"><Icon name="whatsapp" /></a>
 </section>
 
 <style>
   .hero {
-    position: relative; overflow: clip;
-    padding-block: clamp(1.5rem, 1rem + 3vw, 4rem) var(--space-l);
+    position: relative; isolation: isolate; overflow: clip; color: #fff;
+    min-height: min(calc(100svh - 72px), 860px);
+    display: grid; align-items: end;
+    background: var(--duct);
+  }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .shade {
+    position: absolute; inset: 0; z-index: -1;
     background:
-      radial-gradient(60% 50% at 50% 0%, #ffffff 0%, transparent 70%),
-      linear-gradient(180deg, var(--ceiling) 0%, var(--ceiling-2) 100%);
+      linear-gradient(to left, rgb(6 18 38 / .78) 0%, rgb(6 18 38 / .45) 45%, rgb(6 18 38 / .1) 75%),
+      linear-gradient(to top, rgb(6 18 38 / .92) 0%, rgb(6 18 38 / .35) 45%, rgb(6 18 38 / 0) 70%);
   }
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, 360px) minmax(0, .95fr); gap: clamp(1.5rem, 1rem + 2.5vw, 3.5rem); align-items: center; }
-  h1 { font-size: clamp(2.3rem, 1.5rem + 2.6vw, 4rem); letter-spacing: -0.025em; line-height: 1.02; }
-  .sub { margin-top: var(--space-s); font-size: var(--step-1); color: var(--muted); line-height: 1.5; max-width: 30ch; }
+  .content { display: grid; gap: var(--space-l); padding-block: var(--space-l) var(--space-m); }
+  .copy { display: grid; gap: var(--space-s); max-width: 40rem; }
+  h1 { color: #fff; font-size: clamp(2.4rem, 1.5rem + 3.6vw, 4.8rem); letter-spacing: -0.03em; line-height: 1.02; text-shadow: 0 2px 30px rgb(0 0 0 / .25); }
+  .sub { font-size: var(--step-1); line-height: 1.5; color: #dbe8f3; max-width: 34ch; }
+  .ctas { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: .6rem; }
+  .btn-ghost { background: rgb(255 255 255 / .1); color: #fff; border-color: rgb(255 255 255 / .55); backdrop-filter: blur(6px); }
+  .btn-ghost:hover { background: #fff; color: var(--navy); }
 
-  .grille { margin: 0; display: grid; gap: .6rem; justify-items: center; }
-  .frame {
-    position: relative; width: 100%; aspect-ratio: 720 / 896; border-radius: 4px; overflow: hidden; background: var(--duct);
-    border: 14px solid var(--paper);
-    box-shadow: 0 0 0 1px var(--line), inset 0 0 0 1px rgb(0 0 0 / .25), 0 30px 60px -30px rgb(10 42 98 / .45), 0 2px 0 var(--silver);
-  }
-  .feed { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .blades { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(11, 1fr); perspective: 700px; }
-  .blade {
-    display: block; transform-origin: 50% 50%; transform: rotateX(72deg);
-    background: linear-gradient(180deg, #ffffff 0%, #eef2f5 45%, var(--silver) 100%);
-    box-shadow: 0 6px 8px -4px rgb(0 0 0 / .45);
-    will-change: transform;
-  }
-  .grille figcaption { font-size: .85rem; color: var(--muted); }
+  .promises { list-style: none; margin: 0; padding: var(--space-s) 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; border-top: 1px solid rgb(255 255 255 / .22); }
+  .promises li { display: flex; gap: .55rem; align-items: start; line-height: 1.3; }
+  .promises :global(.icon) { color: var(--turq); stroke-width: 2.6; margin-top: .15rem; }
+  .promises span { display: grid; }
+  .promises b { font-family: var(--display); font-weight: 800; }
+  .promises small { color: #b9cde0; font-size: .86rem; }
 
-  .ctas { display: grid; gap: .7rem; }
-  .ctas .btn { width: 100%; }
-  .promises { list-style: none; padding: 0; margin: var(--space-m) 0 0; display: grid; gap: .55rem; }
-  .promises li { display: flex; gap: .55rem; align-items: start; line-height: 1.35; }
-  .promises :global(.icon) { width: 1.25rem; height: 1.25rem; color: var(--turq); flex: none; margin-top: .1rem; stroke-width: 2.4; }
-  .promises b { color: var(--navy); font-family: var(--display); font-weight: 800; }
-  .promises small { color: var(--muted); font-size: .88rem; }
-  .wa-inline { display: inline-flex; gap: .4rem; align-items: center; margin-top: var(--space-s); font-weight: 700; }
-  .wa-inline :global(.icon) { width: 1.2rem; height: 1.2rem; }
+  .credit { position: absolute; top: 1rem; inset-inline-end: max(16px, env(safe-area-inset-right, 0px)); font-size: .8rem; color: rgb(255 255 255 / .75); background: rgb(6 18 38 / .4); padding: .2rem .6rem; border-radius: 999px; }
+  .wa-float { position: absolute; inset-inline-end: max(16px, env(safe-area-inset-right, 0px)); bottom: var(--space-m); width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: var(--turq); color: var(--turq-ink); box-shadow: 0 10px 28px -8px rgb(0 0 0 / .5); }
+  .wa-float :global(.icon) { width: 28px; height: 28px; }
 
-  @media (max-width: 980px) {
-    .hero-grid { grid-template-columns: 1fr; justify-items: stretch; }
-    .grille { order: -1; width: min(100%, 420px); justify-self: center; }
-    .frame { aspect-ratio: auto; height: min(38vh, 340px); border-width: 10px; }
-    .sub { max-width: 40ch; }
-    .ctas { grid-template-columns: 1fr 1fr; }
-    .ctas .btn-primary { grid-column: 1 / -1; }
+  @media (max-width: 980px) { .promises { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 760px) {
+    .hero { min-height: calc(100svh - 72px - 72px); }
+    .shade { background: linear-gradient(to top, rgb(6 18 38 / .95) 0%, rgb(6 18 38 / .6) 45%, rgb(6 18 38 / .15) 80%); }
+    .ctas .btn { flex: 1 1 100%; }
+    .ctas .btn-ghost { flex: 1 1 0; min-width: 0; font-size: .92rem; padding-inline: .6em; white-space: nowrap; }
+    .promises { display: none; }
+    .wa-float { display: none; }
   }
-  @media (max-width: 760px) { .wa-inline { display: none; } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .copy > * { animation: rise .9s var(--ease-out) both; }
+    .copy > :nth-child(2) { animation-delay: .08s; }
+    .copy > :nth-child(3) { animation-delay: .16s; }
+    .bg { animation: settle 2.4s var(--ease-out) both; }
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+  @keyframes settle { from { transform: scale(1.08); } }
 </style>
 
 <script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  const mm = gsap.matchMedia();
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
-    const blades = gsap.utils.toArray<HTMLElement>('[data-grille] .blade');
-    // Arrival: the louvers settle from closed to their resting angle once.
-    gsap.from(blades, { rotateX: 88, duration: 1.1, ease: 'expo.out', stagger: { each: 0.045, from: 'center' } });
-    // Scroll: the louvers open edge-on as the visitor goes "behind the grille" into the duct section.
-    gsap.to(blades, { rotateX: 90, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 35%', scrub: 0.6 } });
-    gsap.to('[data-grille] .frame', { scale: 1.06, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 35%', scrub: 0.6 } });
-  });
-  mm.add('(prefers-reduced-motion: reduce)', () => {
-    document.querySelectorAll<HTMLVideoElement>('[data-grille] video').forEach((v) => { v.pause(); v.removeAttribute('autoplay'); });
-  });
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLVideoElement>('.hero video').forEach((v) => { v.pause(); v.removeAttribute('autoplay'); });
+  }
 </script>
