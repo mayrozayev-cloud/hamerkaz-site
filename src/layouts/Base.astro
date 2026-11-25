@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
+import A11yMenu from '../components/A11yMenu.astro';
 import { business, services, waLink, telLink } from '../data/site';
 interface Props { title: string; description: string; path?: string; noindex?: boolean }
 const { title, description, path = Astro.url.pathname, noindex = false } = Astro.props;
@@ -83,6 +84,7 @@ const nav = [
     <div class="wrap copy muted">© {new Date().getFullYear()} {business.name}</div>
   </footer>
 
+  <A11yMenu />
   <div class="mobile-bar" role="region" aria-label="יצירת קשר מהירה">
     <a href={waLink()} class="mb-wa"><Icon name="whatsapp" />וואטסאפ</a>
     <a href={telLink()} class="mb-call"><Icon name="phone" />חיוג</a>

@@ -1,0 +1,83 @@
+---
+// Accessibility menu: native, no third-party overlay. Settings persist per visitor (localStorage, guarded).
+---
+<div class="a11y" data-a11y>
+  <button class="a11y-btn" type="button" aria-expanded="false" aria-controls="a11y-panel" aria-label="תפריט נגישות">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.2" r="1.8" fill="currentColor" stroke="none" /><path d="M5 8.2c2.3.7 4.6 1 7 1s4.7-.3 7-1" /><path d="M12 9.2v4.6l-3 6.4M12 13.8l3 6.4" /></svg>
+  </button>
+  <div class="a11y-panel" id="a11y-panel" role="dialog" aria-label="הגדרות נגישות" hidden>
+    <p class="t">נגישות</p>
+    <div class="row">
+      <span id="fs-l">גודל טקסט</span>
+      <div class="fs" role="group" aria-labelledby="fs-l">
+        <button type="button" data-fs="-1" aria-label="הקטנת טקסט">א−</button>
+        <output data-fs-out>100%</output>
+        <button type="button" data-fs="1" aria-label="הגדלת טקסט">א+</button>
+      </div>
+    </div>
+    <label class="tg"><input type="checkbox" data-opt="contrast" /><span>ניגודיות גבוהה</span></label>
+    <label class="tg"><input type="checkbox" data-opt="links" /><span>הדגשת קישורים</span></label>
+    <label class="tg"><input type="checkbox" data-opt="font" /><span>גופן קריא</span></label>
+    <label class="tg"><input type="checkbox" data-opt="still" /><span>עצירת אנימציות וסרטונים</span></label>
+    <label class="tg"><input type="checkbox" data-opt="spacing" /><span>ריווח טקסט מוגדל</span></label>
+    <div class="foot"><button type="button" class="reset" data-reset>איפוס הגדרות</button><a href="/accessibility">הצהרת נגישות</a></div>
+  </div>
+</div>
+
+<style>
+  .a11y { position: fixed; z-index: 80; left: max(14px, env(safe-area-inset-left, 0px)); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
+  .a11y-btn { width: 52px; height: 52px; border-radius: 50%; border: 2px solid #fff; background: var(--navy); color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 8px 22px -8px rgb(0 0 0 / .55); }
+  .a11y-btn svg { width: 28px; height: 28px; }
+  .a11y-btn:hover { background: var(--blue); }
+  .a11y-panel { position: absolute; bottom: 62px; left: 0; width: min(300px, calc(100vw - 28px)); background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; display: grid; gap: .55rem; box-shadow: 0 24px 60px -20px rgb(10 42 98 / .5); }
+  .t { font-family: var(--display); font-weight: 900; font-size: 1.15rem; color: var(--navy); }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; font-weight: 700; }
+  .fs { display: flex; align-items: center; gap: .3rem; }
+  .fs button { min-width: 44px; height: 40px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--ceiling); font-weight: 800; color: var(--navy); cursor: pointer; }
+  .fs output { min-width: 3.2rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .tg { display: flex; align-items: center; gap: .6rem; min-height: 44px; padding: .2rem .5rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
+  .tg:hover { background: var(--ceiling); }
+  .tg input { width: 20px; height: 20px; accent-color: var(--navy); }
+  .foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: .6rem; margin-top: .2rem; }
+  .reset { background: none; border: 0; color: var(--blue); font: inherit; font-weight: 700; cursor: pointer; text-decoration: underline; }
+  @media (max-width: 760px) { .a11y { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); } .a11y-btn { width: 46px; height: 46px; } }
+
+  /* Effects of each setting, applied on <html> */
+  :global(html.a11y-contrast) { --muted: #0d1c2e; --line: #44576a; --on-duct-muted: #ffffff; --ceiling: #ffffff; --ceiling-2: #f1f4f6; }
+  :global(html.a11y-contrast .shade) { background: rgb(3 10 22 / .88) !important; }
+  :global(html.a11y-links a:not(.btn)) { text-decoration: underline 2px !important; text-underline-offset: .2em; background: #fff3a6 !important; color: #0d1c2e !important; }
+  :global(html.a11y-font) { --display: Arial, 'Helvetica Neue', sans-serif; --body: Arial, 'Helvetica Neue', sans-serif; }
+  :global(html.a11y-spacing body) { letter-spacing: .03em; word-spacing: .12em; line-height: 1.9; }
+  :global(html.a11y-still *), :global(html.a11y-still *::before), :global(html.a11y-still *::after) { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  :global(html.a11y-still [data-air]) { display: none; }
+</style>
+
+<script>
+  const KEY = 'hamerkaz-a11y';
+  const root = document.documentElement;
+  const box = document.querySelector<HTMLElement>('[data-a11y]');
+  type S = { fs: number; contrast?: boolean; links?: boolean; font?: boolean; still?: boolean; spacing?: boolean };
+  let s: S = { fs: 100 };
+  try { s = { ...s, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { /* storage unavailable */ }
+  const apply = () => {
+    root.style.fontSize = s.fs === 100 ? '' : `${s.fs}%`;
+    (['contrast', 'links', 'font', 'still', 'spacing'] as const).forEach((k) => root.classList.toggle(`a11y-${k}`, !!s[k]));
+    document.querySelectorAll<HTMLVideoElement>('video[autoplay]').forEach((v) => { if (s.still) v.pause(); else if (!matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(() => {}); });
+    if (box) {
+      box.querySelector('[data-fs-out]')!.textContent = `${s.fs}%`;
+      box.querySelectorAll<HTMLInputElement>('[data-opt]').forEach((i) => (i.checked = !!s[i.dataset.opt as keyof S]));
+    }
+    try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* ignore */ }
+  };
+  apply();
+  if (box) {
+    const btn = box.querySelector<HTMLButtonElement>('.a11y-btn')!, panel = box.querySelector<HTMLElement>('.a11y-panel')!;
+    const open = (o: boolean) => { panel.hidden = !o; btn.setAttribute('aria-expanded', String(o)); if (o) panel.querySelector<HTMLElement>('button, input')?.focus(); };
+    btn.addEventListener('click', () => open(panel.hidden));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); } });
+    document.addEventListener('click', (e) => { if (!panel.hidden && !box.contains(e.target as Node)) open(false); });
+    box.querySelectorAll<HTMLButtonElement>('[data-fs]').forEach((b) => b.addEventListener('click', () => { s.fs = Math.min(150, Math.max(90, s.fs + +b.dataset.fs! * 10)); apply(); }));
+    box.querySelectorAll<HTMLInputElement>('[data-opt]').forEach((i) => i.addEventListener('change', () => { (s as Record<string, unknown>)[i.dataset.opt!] = i.checked; apply(); }));
+    box.querySelector('[data-reset]')!.addEventListener('click', () => { s = { fs: 100 }; apply(); });
+  }
+</script>

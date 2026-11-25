@@ -60,7 +60,7 @@ const reels = [
   <div class="wrap stack">
     <h2 id="work-title">מהשטח</h2>
     <p class="lede">סרטונים מעבודות אמיתיות, בלי עריכה של התוצאה.</p>
-    <div class="reels">
+    <div class="reels" tabindex="0" role="region" aria-label="סרטונים מהשטח, אפשר לגלול לצדדים">
       {reels.map((r) => <figure><video controls playsinline preload="none" poster={r.poster} width="720" height="1280"><source src={r.src} type="video/mp4" /></video><figcaption>{r.t}</figcaption></figure>)}
     </div>
   </div>
