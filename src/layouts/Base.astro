@@ -61,7 +61,7 @@ const nav = [
       <nav aria-label="ראשי" class="nav">
         <ul>{nav.map((n) => <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>)}</ul>
       </nav>
-      <a class="btn btn-primary head-cta" href="/#price">חשבו מחיר</a>
+      <a class="btn btn-primary head-cta" href="/#price">הצעת מחיר</a>
       <details class="menu">
         <summary aria-label="תפריט"><span></span><span></span><span></span></summary>
         <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}<li><a href="/articles">מאמרים</a></li><li><a href="/contact">צור קשר</a></li></ul>
@@ -95,7 +95,7 @@ const nav = [
   <div class="mobile-bar" role="region" aria-label="יצירת קשר מהירה">
     <a href={waLink()} class="mb-wa" data-track="Contact"><Icon name="whatsapp" />וואטסאפ</a>
     <a href={telLink()} class="mb-call" data-track="Contact"><Icon name="phone" />חיוג</a>
-    <a href="/#price" class="mb-quote">חשבו מחיר</a>
+    <a href="/#price" class="mb-quote">הצעת מחיר</a>
   </div>
   <script>import '../scripts/track';</script>
 </body>

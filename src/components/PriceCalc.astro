@@ -1,23 +1,23 @@
 ---
 import Icon from './Icon.astro';
-import { offer, prices, priceNote, vatIncluded } from '../data/offer';
+
 import { business } from '../data/site';
-const vatText = vatIncluded === true ? 'המחירים כוללים מע״מ.' : vatIncluded === false ? 'המחירים אינם כוללים מע״מ.' : '';
 ---
 <section class="section calc" id="price" aria-labelledby="calc-title">
   <div class="wrap grid">
     <div class="intro stack">
-      {offer.active && <p class="flag"><span>{offer.title}</span>{offer.endsLabel && <em>{offer.endsLabel}</em>}</p>}
-      <h2 id="calc-title">{offer.active ? offer.headline : 'כמה זה עולה?'}</h2>
-      <div class="tags">
-        <div class="tag"><small>יחידה פנימית מיני מרכזי</small><b>₪{prices.miniCentralUnit}</b></div>
-        <div class="tag"><small>ניקוי תעלה</small><b><span>החל מ-</span>₪{prices.ductFrom}</b></div>
-        {offer.active && <div class="tag gift"><small>במתנה</small><b class="g">{offer.gift}</b></div>}
-      </div>
-      <p class="muted small">{offer.terms}. {vatText} {priceNote}</p>
+      <h2 id="calc-title">הצעה מותאמת בדקה</h2>
+      <p class="lede">ספרו לנו מה יש לכם, ונחזור עם הצעה מסודרת ומועד. בלי התחייבות.</p>
+      <ul class="why">
+        <li><b>סוג המערכת ומספר היחידות</b><span>מיני מרכזי, עיליים או VRF</span></li>
+        <li><b>מספר התעלות ופתחי היציאה</b><span>ואורך התעלות</span></li>
+        <li><b>הגישה לתעלות</b><span>פתח שירות קיים או צורך בפתיחה</span></li>
+        <li><b>מצב המערכת</b><span>ריח, אבק או כתמים שתיארתם</span></li>
+      </ul>
+      <p class="muted small">אלה הדברים שקובעים את ההצעה. ככל שתפרטו יותר, ההצעה שתקבלו תהיה מדויקת יותר.</p>
     </div>
 
-    <form class="box" data-calc data-unit={prices.miniCentralUnit} data-duct={prices.ductFrom} data-wa={business.whatsapp ?? ''} novalidate>
+    <form class="box" data-calc data-wa={business.whatsapp ?? ''} novalidate>
       <fieldset>
         <legend>איזו מערכת יש לכם?</legend>
         <div class="seg" role="radiogroup">
@@ -51,12 +51,9 @@ const vatText = vatIncluded === true ? 'המחירים כוללים מע״מ.' :
         <div class="chips">{['ריח מהמזגן', 'אבק שחוזר', 'כתמים שחורים', 'טפטוף', 'אין פתח שירות'].map((o) => <label><input type="checkbox" name="issue" value={o} /><span>{o}</span></label>)}</div>
       </fieldset>
 
-      <div class="total" aria-live="polite">
-        <div><small data-total-label>הערכת מחיר</small><strong data-total>₪0</strong><small class="incl" data-incl></small></div>
-        {offer.active && <p class="gift-line"><Icon name="check" />{offer.gift}</p>}
-      </div>
+      <div class="total" aria-live="polite"><div><small>הסיכום שיישלח אלינו</small><p class="sum" data-sum></p></div></div>
       <div class="send">
-        <button type="submit" class="btn btn-primary"><Icon name="whatsapp" />שלחו לנו את ההערכה</button>
+        <button type="submit" class="btn btn-primary"><Icon name="whatsapp" />שלחו וקבלו הצעה</button>
         <a class="btn btn-line" href={`tel:${business.phone?.replace(/\D/g, '') ?? ''}`} data-track="Contact"><Icon name="phone" />או התקשרו</a>
       </div>
     </form>
@@ -120,36 +117,22 @@ const vatText = vatIncluded === true ? 'המחירים כוללים מע״מ.' :
   import { track } from '../scripts/track';
   const f = document.querySelector<HTMLFormElement>('[data-calc]');
   if (f) {
-    const UNIT = +f.dataset.unit!, DUCT = +f.dataset.duct!;
     const v: Record<string, number> = { units: 1, ducts: 4, walls: 2 };
     const max: Record<string, number> = { units: 6, ducts: 30, walls: 12 };
     const out = (k: string) => f.querySelector<HTMLOutputElement>(`[data-out="${k}"]`)!;
     const row = (k: string) => f.querySelector<HTMLElement>(`[data-row="${k}"]`)!;
-    const totalEl = f.querySelector<HTMLElement>('[data-total]')!;
-    const label = f.querySelector<HTMLElement>('[data-total-label]')!;
-    const incl = f.querySelector<HTMLElement>('[data-incl]')!;
+    const sumEl = f.querySelector<HTMLElement>('[data-sum]')!;
     const sys = () => (f.querySelector<HTMLInputElement>('input[name=sys]:checked')?.value ?? 'mini');
-    const fmt = (n: number) => '₪' + n.toLocaleString('he-IL');
-    let shown = 0;
-    const animateTo = (n: number) => {
-      const from = shown, start = performance.now();
-      const step = (now: number) => { const k = Math.min(1, (now - start) / 380); shown = Math.round(from + (n - from) * (1 - Math.pow(1 - k, 3))); totalEl.textContent = fmt(shown); if (k < 1) requestAnimationFrame(step); };
-      requestAnimationFrame(step);
-    };
     const calc = () => {
       const s = sys();
       row('units').hidden = !(s === 'mini'); row('ducts').hidden = !(s === 'mini' || s === 'ducts'); row('walls').hidden = s !== 'wall';
       Object.keys(v).forEach((k) => (out(k).textContent = String(v[k])));
-      if (s === 'mini' || s === 'ducts') {
-        const units = s === 'mini' ? v.units : 0;
-        const n = units * UNIT + v.ducts * DUCT;
-        label.textContent = 'הערכת מחיר, החל מ-'; incl.textContent = `${units ? `${units} × ₪${UNIT} יחידה` : ''}${units && v.ducts ? ' + ' : ''}${v.ducts ? `${v.ducts} × ₪${DUCT} תעלה` : ''}`;
-        animateTo(n);
-      } else {
-        label.textContent = s === 'wall' ? 'מזגנים עיליים' : 'מערכות VRF ומשרדים';
-        totalEl.textContent = 'הצעה אישית'; shown = 0;
-        incl.textContent = s === 'wall' ? `${v.walls} מזגנים. נחזור עם מחיר מדויק.` : 'מתמחרים לפי מפת היחידות, אחרי שיחה קצרה.';
-      }
+      const names: Record<string, string> = { mini: 'מיני מרכזי', wall: 'מזגנים עיליים', vrf: 'VRF / משרד', ducts: 'תעלות בלבד' };
+      const parts = [names[s]];
+      if (s === 'mini') parts.push(`${v.units} יחידות פנימיות`);
+      if (s === 'mini' || s === 'ducts') parts.push(`${v.ducts} תעלות`);
+      if (s === 'wall') parts.push(`${v.walls} מזגנים`);
+      sumEl.textContent = parts.join(' · ');
     };
     f.addEventListener('click', (e) => {
       const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-inc],button[data-dec]'); if (!b) return;
@@ -160,16 +143,24 @@ const vatText = vatIncluded === true ? 'המחירים כוללים מע״מ.' :
       e.preventDefault();
       const d = new FormData(f); const s = sys();
       const names: Record<string, string> = { mini: 'מיני מרכזי', wall: 'מזגנים עיליים', vrf: 'VRF / משרד', ducts: 'תעלות בלבד' };
-      const lines = ['שלום, חישבתי באתר הצעה לניקוי מיזוג:', `מערכת: ${names[s]}`];
+      const lines = ['שלום, אשמח להצעה לניקוי מערכת המיזוג:', `מערכת: ${names[s]}`];
       if (s === 'mini') lines.push(`יחידות פנימיות: ${v.units}`);
-      if (s === 'mini' || s === 'ducts') lines.push(`תעלות: ${v.ducts}`, `הערכה: ${totalEl.textContent}`);
+      if (s === 'mini' || s === 'ducts') lines.push(`תעלות: ${v.ducts}`);
       if (s === 'wall') lines.push(`מזגנים: ${v.walls}`);
       lines.push(`נכס: ${d.get('prop')}`, `עיר: ${d.get('city') || '-'}`);
       const issues = d.getAll('issue'); if (issues.length) lines.push(`מה מפריע: ${issues.join(', ')}`);
       const params = new URLSearchParams(location.search); const src = params.get('utm_campaign') || params.get('utm_source'); if (src) lines.push(`(מקור: ${src})`);
-      track('Lead', { content_name: 'calculator', value: shown || undefined, currency: 'ILS' });
+      track('Lead', { content_name: 'quote-builder' });
       const wa = f.dataset.wa; if (wa) location.href = `https://wa.me/${wa}?text=${encodeURIComponent(lines.join('\n'))}`;
     });
     calc();
   }
 </script>
+
+<style>
+  .why { list-style: none; margin: 0; padding: 0; display: grid; border-top: 2px solid var(--navy); }
+  .why li { display: grid; gap: .1rem; padding-block: .8rem; border-bottom: 1px solid var(--line); }
+  .why b { font-family: var(--display); font-weight: 800; color: var(--navy); }
+  .why span { color: var(--muted); font-size: .95rem; }
+  .sum { font-family: var(--display); font-weight: 800; font-size: var(--step-1); color: #fff; margin-top: .2rem; }
+</style>

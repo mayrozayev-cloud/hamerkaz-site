@@ -11,7 +11,7 @@ import FinalCTA from '../components/FinalCTA.astro';
 import { faq } from '../data/site';
 const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
-<Base title="ניקוי וחיטוי תעלות ומערכות מיזוג" description="ניקוי וחיטוי של תעלות מיזוג ומזגנים מיני מרכזיים מבפנים: הברשה ושאיבה של 3,600W עם סינון HEPA, תיעוד לפני ואחרי ואחריות לשנה. חשבו מחיר בדקה." schema={faqSchema}>
+<Base title="ניקוי וחיטוי תעלות ומערכות מיזוג" description="ניקוי וחיטוי של תעלות מיזוג ומזגנים מיני מרכזיים מבפנים: הברשה ושאיבה של 3,600W עם סינון HEPA, תיעוד לפני ואחרי ואחריות לשנה. קבלו הצעה מותאמת בדקה." schema={faqSchema}>
   <Hero />
   <Symptoms />
   <Duct3D />

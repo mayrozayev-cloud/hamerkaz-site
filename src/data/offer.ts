@@ -2,7 +2,7 @@
 // Owner-provided winter prices, 25.11.2026. Israeli consumer law requires prices shown to consumers to include VAT:
 // vatIncluded must be confirmed by the owner before launch.
 export const offer = {
-  active: true,
+  active: false, // owner decision 25.11.2026: no prices or promotions on the site
   title: 'הטבת חורף',
   headline: 'מכינים את המזגן לעונת החימום',
   gift: 'בישום וחיטוי אנטי־בקטריאלי במתנה',

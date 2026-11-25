@@ -1,7 +1,6 @@
 ---
 import Icon from './Icon.astro';
 import { guarantees, waLink } from '../data/site';
-import { offer, prices } from '../data/offer';
 ---
 <section class="hero" aria-labelledby="hero-title" data-hero>
   <video class="bg" autoplay muted loop playsinline preload="metadata" poster="/video/hero-wide-poster.jpg" aria-hidden="true" tabindex="-1">
@@ -15,17 +14,10 @@ import { offer, prices } from '../data/offer';
 
   <div class="wrap content">
     <div class="copy">
-      {offer.active && (
-        <a class="offer" href="#price">
-          <span class="o-tag">{offer.title}</span>
-          <span class="o-txt">יחידה פנימית <b>₪{prices.miniCentralUnit}</b> · תעלה מ-<b>₪{prices.ductFrom}</b> · {offer.gift}</span>
-          <Icon name="arrow" />
-        </a>
-      )}
       <h1 id="hero-title"><span class="l1">האוויר שאתם נושמים</span> <span class="l2">מתחיל בתוך המזגן שלכם.</span></h1>
       <p class="sub">ניקוי וחיטוי של מערכות מיזוג ותעלות אוויר, מבפנים. הברשה ושאיבה של 3,600W עם סינון HEPA, בשיטת ניקוי אמריקאית.</p>
       <div class="ctas">
-        <a class="btn btn-primary" href="#price">חשבו מחיר בדקה</a>
+        <a class="btn btn-primary" href="#price">קבלו הצעה בדקה</a>
         <a class="btn btn-ghost" href={waLink()} data-track="Contact"><Icon name="whatsapp" />וואטסאפ</a>
         <a class="btn btn-ghost hide-sm" href="#work"><Icon name="play" />צפו בעבודות</a>
       </div>
