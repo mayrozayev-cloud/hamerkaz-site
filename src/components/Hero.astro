@@ -1,0 +1,103 @@
+---
+import Icon from './Icon.astro';
+import { guarantees, waLink } from '../data/site';
+const blades = Array.from({ length: 11 });
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="h-copy">
+      <h1 id="hero-title">האוויר שאתם נושמים מתחיל בתוך המזגן שלכם.</h1>
+      <p class="sub">ניקוי וחיטוי מקצועי של מערכות מיזוג ותעלות אוויר, בטכנולוגיה מתקדמת ובשיטת ניקוי אמריקאית.</p>
+    </div>
+
+    <figure class="grille" data-grille>
+      <div class="frame">
+        <video class="feed" autoplay muted loop playsinline preload="metadata" poster="/video/hero-poster.jpg" aria-label="צילום אמיתי מעבודה: פתיחת תריס, שאיבת תעלה ושק האבק שנשאב">
+          <source src="/video/hero-loop.webm" type="video/webm" />
+          <source src="/video/hero-loop.mp4" type="video/mp4" />
+        </video>
+        <div class="blades" aria-hidden="true">{blades.map(() => <span class="blade"></span>)}</div>
+      </div>
+      <figcaption>צילום אמיתי מעבודה שלנו</figcaption>
+    </figure>
+
+    <div class="h-act">
+      <div class="ctas">
+        <a class="btn btn-primary" href="#quote">קבלת הצעת מחיר</a>
+        <a class="btn btn-navy" href="#quote" data-open-wizard>התאמת הצעה אישית</a>
+        <a class="btn btn-line" href="#work"><Icon name="play" />צפו בתוצאות שלנו</a>
+      </div>
+      <ul class="promises">
+        {guarantees.map((g) => <li><Icon name="check" /><span><b>{g.title}</b> <small>{g.note}</small></span></li>)}
+      </ul>
+      <a class="wa-inline" href={waLink()}><Icon name="whatsapp" />או כתבו לנו בוואטסאפ</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative; overflow: clip;
+    padding-block: clamp(1.5rem, 1rem + 3vw, 4rem) var(--space-l);
+    background:
+      radial-gradient(60% 50% at 50% 0%, #ffffff 0%, transparent 70%),
+      linear-gradient(180deg, var(--ceiling) 0%, var(--ceiling-2) 100%);
+  }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, 360px) minmax(0, .95fr); gap: clamp(1.5rem, 1rem + 2.5vw, 3.5rem); align-items: center; }
+  h1 { font-size: clamp(2.3rem, 1.5rem + 2.6vw, 4rem); letter-spacing: -0.025em; line-height: 1.02; }
+  .sub { margin-top: var(--space-s); font-size: var(--step-1); color: var(--muted); line-height: 1.5; max-width: 30ch; }
+
+  .grille { margin: 0; display: grid; gap: .6rem; justify-items: center; }
+  .frame {
+    position: relative; width: 100%; aspect-ratio: 720 / 896; border-radius: 4px; overflow: hidden; background: var(--duct);
+    border: 14px solid var(--paper);
+    box-shadow: 0 0 0 1px var(--line), inset 0 0 0 1px rgb(0 0 0 / .25), 0 30px 60px -30px rgb(10 42 98 / .45), 0 2px 0 var(--silver);
+  }
+  .feed { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .blades { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(11, 1fr); perspective: 700px; }
+  .blade {
+    display: block; transform-origin: 50% 50%; transform: rotateX(72deg);
+    background: linear-gradient(180deg, #ffffff 0%, #eef2f5 45%, var(--silver) 100%);
+    box-shadow: 0 6px 8px -4px rgb(0 0 0 / .45);
+    will-change: transform;
+  }
+  .grille figcaption { font-size: .85rem; color: var(--muted); }
+
+  .ctas { display: grid; gap: .7rem; }
+  .ctas .btn { width: 100%; }
+  .promises { list-style: none; padding: 0; margin: var(--space-m) 0 0; display: grid; gap: .55rem; }
+  .promises li { display: flex; gap: .55rem; align-items: start; line-height: 1.35; }
+  .promises :global(.icon) { width: 1.25rem; height: 1.25rem; color: var(--turq); flex: none; margin-top: .1rem; stroke-width: 2.4; }
+  .promises b { color: var(--navy); font-family: var(--display); font-weight: 800; }
+  .promises small { color: var(--muted); font-size: .88rem; }
+  .wa-inline { display: inline-flex; gap: .4rem; align-items: center; margin-top: var(--space-s); font-weight: 700; }
+  .wa-inline :global(.icon) { width: 1.2rem; height: 1.2rem; }
+
+  @media (max-width: 980px) {
+    .hero-grid { grid-template-columns: 1fr; justify-items: stretch; }
+    .grille { order: -1; width: min(100%, 420px); justify-self: center; }
+    .frame { aspect-ratio: auto; height: min(38vh, 340px); border-width: 10px; }
+    .sub { max-width: 40ch; }
+    .ctas { grid-template-columns: 1fr 1fr; }
+    .ctas .btn-primary { grid-column: 1 / -1; }
+  }
+  @media (max-width: 760px) { .wa-inline { display: none; } }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  const mm = gsap.matchMedia();
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const blades = gsap.utils.toArray<HTMLElement>('[data-grille] .blade');
+    // Arrival: the louvers settle from closed to their resting angle once.
+    gsap.from(blades, { rotateX: 88, duration: 1.1, ease: 'expo.out', stagger: { each: 0.045, from: 'center' } });
+    // Scroll: the louvers open edge-on as the visitor goes "behind the grille" into the duct section.
+    gsap.to(blades, { rotateX: 90, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 35%', scrub: 0.6 } });
+    gsap.to('[data-grille] .frame', { scale: 1.06, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 35%', scrub: 0.6 } });
+  });
+  mm.add('(prefers-reduced-motion: reduce)', () => {
+    document.querySelectorAll<HTMLVideoElement>('[data-grille] video').forEach((v) => { v.pause(); v.removeAttribute('autoplay'); });
+  });
+</script>

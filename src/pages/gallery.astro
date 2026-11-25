@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import QuoteWizard from '../components/QuoteWizard.astro';
+const reels = [1, 2, 3].map((n) => ({ src: `/video/reel${n}.mp4`, poster: `/video/reel${n}.jpg` }));
+const stills = [
+  { src: '/img/grille-open.webp', alt: 'תריס יניקה מורם מהתקרה, והתעלה גלויה מאחוריו' },
+  { src: '/img/hose-duct.webp', alt: 'צינור שאיבה מוכנס לפתח תעלה' },
+  { src: '/img/dust-bag.webp', alt: 'שק שאיבה מלא אבק מתוך התעלות' },
+  { src: '/img/filter-wash.webp', alt: 'שטיפת פילטר מזגן' },
+];
+---
+<Base title="גלריית עבודות" description="סרטונים ותמונות אמיתיים מעבודות ניקוי תעלות ומזגנים של המרכז למיזוג וחיטוי.">
+  <PageHead title="גלריית עבודות" lede="רק צילומים מעבודות שלנו. בלי הדמיות ובלי תמונות מאגר." />
+  <section class="section"><div class="wrap stack">
+    <div class="reels">{reels.map((r) => <video controls playsinline preload="none" poster={r.poster} width="720" height="1280"><source src={r.src} type="video/mp4" /></video>)}</div>
+    <div class="stills">{stills.map((s) => <img src={s.src} alt={s.alt} width="900" height="1120" loading="lazy" />)}</div>
+    <p class="muted">גלריית לפני ואחרי תתווסף כשיהיו צילומים של אותה תעלה לפני הניקוי ואחריו.</p>
+  </div></section>
+  <QuoteWizard showFaq={false} />
+</Base>
+<style>
+  .reels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-m); }
+  .reels video { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 6px; background: #000; }
+  .stills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-s); }
+  .stills img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 4px; }
+  @media (max-width: 760px) { .reels { grid-template-columns: 1fr 1fr; } .stills { grid-template-columns: 1fr 1fr; } }
+</style>

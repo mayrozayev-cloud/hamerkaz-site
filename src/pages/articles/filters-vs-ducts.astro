@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import QuoteWizard from '../../components/QuoteWizard.astro';
+---
+<Base title="למה שטיפת פילטרים לא מנקה את התעלות" description="הפילטר הוא רק הכניסה למערכת. מה עובר אותו, איפה הוא מצטבר, ומתי כדאי לנקות את תעלות המיזוג עצמן.">
+  <article class="section"><div class="wrap art">
+    <a href="/articles" class="back">כל המאמרים</a>
+    <h1>למה שטיפת פילטרים לא מנקה את התעלות</h1>
+    <p class="lede">הפילטר הוא הכניסה למערכת, לא כל המערכת. מה שעובר אותו ממשיך הלאה, ונשאר שם.</p>
+    <figure><img src="/img/filter-wash.webp" alt="שטיפת פילטר של מזגן" width="900" height="1120" /><figcaption>שטיפת פילטר, מתוך עבודה שלנו</figcaption></figure>
+    <h2>מה הפילטר עושה</h2>
+    <p>פילטר של מזגן ביתי עוצר חלקיקים גדולים, כמו אבק גס ושערות. חלקיקים קטנים יותר עוברים דרכו, וככל שהפילטר מתלכלך, האוויר מוצא דרכים לעקוף אותו.</p>
+    <h2>לאן הולך מה שעובר</h2>
+    <p>האבק שעבר את הפילטר מגיע למאייד, למגש הניקוז ולתעלות. בתעלות הוא נדבק לדפנות ומצטבר בשכבות, במיוחד בפינות ובחיבורים. שטיפת הפילטר לא מגיעה לאף אחד מהמקומות האלה.</p>
+    <figure><img src="/img/dust-bag.webp" alt="שק שאיבה מלא אבק מתוך תעלות" width="900" height="1120" loading="lazy" /><figcaption>שק השאיבה אחרי ניקוי תעלות, מתוך עבודה שלנו</figcaption></figure>
+    <h2>מתי כדאי לנקות את התעלות</h2>
+    <ul>
+      <li>כשרואים אבק או כתמים כהים סביב פתחי היציאה.</li>
+      <li>כשיש ריח לא נעים בהפעלת המזגן.</li>
+      <li>כשיש עובש נראה לעין בפתחים או ביחידה. במקרה כזה צריך לטפל גם במקור הלחות.</li>
+      <li>אחרי שיפוץ, כשאבק בנייה נכנס למערכת.</li>
+      <li>כשהמערכת לא נוקתה שנים.</li>
+    </ul>
+    <h2>מה לא נבטיח לכם</h2>
+    <p>ניקוי תעלות מסלק אבק ולכלוך שהצטברו, ומשפר ריח ואת מצב המערכת. לא נבטיח שהוא ימנע מחלות או יפתור בעיות בריאות. הסוכנות להגנת הסביבה האמריקאית (EPA) מציינת שזה לא הוכח, ואנחנו לא נטען אחרת.</p>
+  </div></article>
+  <QuoteWizard showFaq={false} />
+</Base>
+<style>
+  .art { max-width: 760px; display: grid; gap: 1.1rem; } .art h1 { font-size: var(--step-3); } .art h2 { font-size: var(--step-2); margin-top: 1rem; }
+  .art figure { margin: .6rem 0; } .art img { width: 100%; max-height: 520px; object-fit: cover; border-radius: 4px; } figcaption { color: var(--muted); font-size: .9rem; margin-top: .4rem; }
+  .art ul { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: .4rem; } .back { font-weight: 700; }
+</style>

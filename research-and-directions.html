@@ -1,0 +1,264 @@
+<title>המרכז למיזוג וחיטוי · מחקר וכיוונים</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Secular+One&family=Karantina:wght@700&family=Frank+Ruhl+Libre:wght@500;800&family=Heebo:wght@400;800;900&display=swap">
+<style>
+/* Layout: a working research brief, then three direction cards each with a live first-viewport sketch */
+:root{
+  --bg:#f4f7f8; --panel:#ffffff; --fg:#10222c; --muted:#556a74; --line:#d6e1e5;
+  --ok:#137a55; --ok-bg:#e3f4ec; --est:#8a5a00; --est-bg:#fbf0d9; --no:#a12f2f; --no-bg:#f9e4e4;
+  --accent:#0b5c8a;
+  --body:"Assistant",system-ui,Arial,sans-serif; --head:"Secular One","Assistant",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1519; --panel:#132026; --fg:#e3edf0; --muted:#97adb5; --line:#26373e;
+  --ok:#5fd3a2; --ok-bg:#12302a; --est:#f0c46a; --est-bg:#33290f; --no:#ff8d8d; --no-bg:#3a1a1a; --accent:#6cc3f0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1519; --panel:#132026; --fg:#e3edf0; --muted:#97adb5; --line:#26373e;
+  --ok:#5fd3a2; --ok-bg:#12302a; --est:#f0c46a; --est-bg:#33290f; --no:#ff8d8d; --no-bg:#3a1a1a; --accent:#6cc3f0; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);direction:rtl;line-height:1.65;font-size:16px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.wrap{max-width:1080px;margin:0 auto;display:grid;gap:40px}
+h1{font-family:var(--head);font-weight:400;font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.15;margin:0;text-wrap:balance}
+h2{font-family:var(--head);font-weight:400;font-size:1.55rem;margin:0 0 12px;text-wrap:balance}
+h3{font-size:1.1rem;margin:0 0 6px}
+p{margin:0;max-width:68ch}
+.lead{color:var(--muted);font-size:1.05rem}
+section{display:grid;gap:14px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.9rem}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.v{background:var(--ok-bg);color:var(--ok)} .e{background:var(--est-bg);color:var(--est)} .x{background:var(--no-bg);color:var(--no)}
+.tbl{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.82rem;color:var(--muted);font-weight:600;letter-spacing:.02em}
+tr:last-child td{border-bottom:0}
+ul{margin:0;padding-inline-start:20px;display:grid;gap:6px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;min-width:0;display:grid;gap:8px;align-content:start}
+a{color:var(--accent)}
+.src{font-size:.85rem;color:var(--muted)}
+/* direction cards */
+.dir{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+@media (max-width:860px){.dir{grid-template-columns:1fr}}
+.dir .txt{padding:22px;display:grid;gap:10px;align-content:start;min-width:0}
+.kick{font-size:.8rem;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{width:34px;height:34px;border-radius:6px;border:1px solid var(--line)}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.95rem}
+dt{color:var(--muted);font-weight:600}
+dd{margin:0}
+.sketch{min-height:360px;position:relative;overflow:hidden;direction:rtl}
+.note{font-size:.85rem;color:var(--muted)}
+/* Sketch A: enamel street sign + white city */
+.sA{background:#f2f4f3;color:#0a2d6e;padding:22px;display:grid;gap:14px;align-content:start}
+.sA .nav{display:flex;justify-content:space-between;align-items:center;font:700 13px var(--body)}
+.sA .plate{background:#0a3a8c;color:#fff;border-radius:10px;border:3px solid #fff;outline:2px solid #0a3a8c;padding:14px 16px;box-shadow:0 2px 0 #072a66}
+.sA .plate b{font-family:"Secular One";font-weight:400;font-size:26px;line-height:1.15;display:block}
+.sA .plate small{font-size:12px;opacity:.85}
+.sA .ribbon{height:46px;background:repeating-linear-gradient(90deg,#d9e7ee 0 64px,#f2f4f3 64px 70px);border-block:2px solid #0a3a8c;position:relative}
+.sA .ribbon i{position:absolute;inset-block:18px;inset-inline:8% 30%;background:#16b0a2;border-radius:6px}
+.sA .row{display:flex;gap:8px;flex-wrap:wrap}
+.sA .btn{background:#16b0a2;color:#052b2a;font:700 13px var(--body);padding:8px 12px;border-radius:6px}
+.sA .btn.o{background:transparent;border:2px solid #0a3a8c;color:#0a3a8c}
+.sA .cities{display:flex;gap:6px;flex-wrap:wrap}
+.sA .cities span{background:#0a3a8c;color:#fff;font:700 11px var(--body);padding:3px 8px;border-radius:4px;border:1.5px solid #fff;outline:1px solid #0a3a8c}
+/* Sketch B: the return grille */
+.sB{background:#eef3f6;color:#0b2540;display:grid;grid-template-rows:auto 1fr auto;padding:18px;gap:10px}
+.sB .nav{font:800 13px "Heebo";display:flex;justify-content:space-between}
+.sB .grille{position:relative;border-radius:6px;background:#0e3050;overflow:hidden;min-height:190px;border:10px solid #fbfcfd;box-shadow:inset 0 0 0 1px #c9d6de,0 1px 0 #c9d6de}
+.sB .grille::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,#fbfcfd 0 9px,transparent 9px 22px);transform:perspective(400px) rotateX(8deg);opacity:.92}
+.sB .grille::after{content:"וידאו אמיתי מתוך תעלה";position:absolute;bottom:8px;inset-inline-start:10px;font:600 11px var(--body);color:#bfe9f3;background:#0e3050cc;padding:2px 6px;border-radius:3px}
+.sB h4{font-family:"Heebo";font-weight:900;font-size:24px;line-height:1.1;margin:0}
+.sB .row{display:flex;gap:8px;flex-wrap:wrap}
+.sB .btn{background:#0b2540;color:#fff;font:800 12px "Heebo";padding:8px 12px;border-radius:999px}
+.sB .btn.t{background:#2bc4c0;color:#062a2e}
+/* Sketch C: inspection report */
+.sC{background:#fbfcfc;color:#122a3a;padding:18px;display:grid;gap:10px;align-content:start;font-family:var(--body)}
+.sC .hd{display:flex;justify-content:space-between;border-bottom:2px solid #122a3a;padding-bottom:6px;font-size:12px;font-weight:700}
+.sC .feed{background:#0f1f2b;border-radius:4px;min-height:130px;position:relative;color:#9fe6dc;font:600 11px var(--body)}
+.sC .feed span{position:absolute;top:8px;inset-inline-start:10px}
+.sC .feed em{position:absolute;bottom:8px;inset-inline-end:10px;font-style:normal;font-variant-numeric:tabular-nums}
+.sC .feed b{position:absolute;top:8px;inset-inline-end:10px;color:#ff7b7b}
+.sC h4{font-family:"Frank Ruhl Libre";font-weight:800;font-size:22px;line-height:1.2;margin:0}
+.sC .checks{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:12px}
+.sC .checks div::before{content:"☑ ";color:#12968c}
+.sC .stamp{position:absolute;inset-block-end:18px;inset-inline-end:18px;transform:rotate(-8deg);border:2.5px solid #12968c;color:#12968c;font:700 13px "Karantina",var(--body);font-size:20px;padding:2px 10px;border-radius:4px}
+.sC .btn{background:#122a3a;color:#fff;font:700 12px var(--body);padding:8px 12px;border-radius:3px;justify-self:start}
+</style>
+
+<div class="wrap">
+<header style="display:grid;gap:10px">
+  <div class="kick">המרכז למיזוג וחיטוי · שלב 1: מחקר וכיוון עיצובי · 25.11.2026</div>
+  <h1>מה מצאתי בשוק, ושלושה כיוונים לבחירה</h1>
+  <p class="lead">לכל ממצא מוצמד סימון: מה בדקתי ומצאתי במקור, מה הערכה שלי, ומה עוד לא נבדק. לא כתבתי קוד של האתר. הוא ייכתב רק אחרי שתבחר כיוון.</p>
+  <div class="legend"><span class="tag v">מאומת במקור</span><span class="tag e">הערכה / מסקנה שלי</span><span class="tag x">לא נבדק עדיין</span></div>
+</header>
+
+<section>
+  <h2>מחירי שוק בישראל, כפי שהספקים מפרסמים</h2>
+  <p>הנתונים נלקחו מאתרי ספקים ומחירונים מסחריים, ולא ממחקר שוק בלתי תלוי. חלק מהמחירים כוללים מע״מ וחלק לא.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>שירות</th><th>טווח שפורסם</th><th>מקור</th><th></th></tr></thead>
+    <tbody>
+      <tr><td>מיני מרכזי, ניקוי רגיל</td><td>₪400–700, ובמקור אחר ₪600–1,200</td><td><a href="https://www.mizugi.co.il/%D7%AA%D7%99%D7%A7%D7%95%D7%9F-%D7%9E%D7%96%D7%92%D7%A0%D7%99%D7%9D/%D7%A0%D7%99%D7%A7%D7%95%D7%99-%D7%9E%D7%96%D7%92%D7%A0%D7%99%D7%9D">מיזוגי</a>, <a href="https://ariclean.co.il/mini-central-ac-cleaning-guide/">אריקלין</a></td><td><span class="tag v">מאומת</span></td></tr>
+      <tr><td>מיני מרכזי כולל תעלות, בלי שבירת גבס</td><td>מ-₪550</td><td><a href="https://clean-mazgan.co.il/%D7%9E%D7%97%D7%99%D7%A8%D7%95%D7%9F/">מזגן נקי</a></td><td><span class="tag v">מאומת</span></td></tr>
+      <tr><td>מיני מרכזי עד 5 כ״ס עם תעלות, עד 7 יציאות</td><td>₪1,600–1,800</td><td><a href="https://fresh-air.co.il/">פרש-אייר</a></td><td><span class="tag v">מאומת</span></td></tr>
+      <tr><td>מיני מרכזי עם פתיחת גבס</td><td>עד ₪1,500–2,000</td><td><a href="https://www.mizugi.co.il/%D7%AA%D7%99%D7%A7%D7%95%D7%9F-%D7%9E%D7%96%D7%92%D7%A0%D7%99%D7%9D/%D7%A0%D7%99%D7%A7%D7%95%D7%99-%D7%9E%D7%96%D7%92%D7%A0%D7%99%D7%9D">מיזוגי</a></td><td><span class="tag v">מאומת</span></td></tr>
+      <tr><td>מחירון מצטבר (מתעדכן על ידי העסקים עצמם)</td><td>₪220–1,500, ממוצע ₪860</td><td><a href="https://calliber.co.il/prices-list/cleaning-mini-central-air-conditioner/">קליבר</a></td><td><span class="tag v">מאומת</span></td></tr>
+      <tr><td>תעלות VRF, מערכת מסחרית</td><td>₪800–2,500</td><td><a href="https://www.cleaningcompany4polishing.co.il/glossary/%D7%A0%D7%99%D7%A7%D7%95%D7%99-%D7%AA%D7%A2%D7%9C%D7%95%D7%AA-%D7%9E%D7%96%D7%92%D7%9F/">טופ פוליש</a></td><td><span class="tag v">מאומת</span></td></tr>
+      <tr><td><b>ההטבה שלכם:</b> יחידה פנימית ₪289, תעלה מ-₪179</td><td>נמוך מרוב הטווחים שפורסמו</td><td>מהבריף שלך</td><td><span class="tag e">הערכה</span></td></tr>
+    </tbody></table></div>
+  <p class="src">מסקנה <span class="tag e">הערכה</span>: מחיר הפתיחה שלכם תחרותי מאוד. לכן המחשבון צריך להראות מחיר אמיתי ולפרט מראש מה מייקר את העבודה (גבס, מספר פתחים, רמת לכלוך). כך המחיר הנמוך לא ייראה כמו פיתיון.</p>
+</section>
+
+<section>
+  <h2>מתחרים ומסרים</h2>
+  <div class="grid2">
+    <div class="box"><h3>בישראל <span class="tag v">נצפה במקור</span></h3>
+      <ul>
+        <li>רוב האתרים בנויים אותו דבר: מחירון ארוך כמאמר SEO, כותרות "מחיר זול ☑️", ותמונת אילוסטרציה של טכנאי.</li>
+        <li>רוב המתחרים מציגים את המחיר כטווח, ולא כמחשבון שמראה איך מגיעים אליו.</li>
+        <li>יש מתחרים שמדגישים ניקוי "בלי לשבור גבס" (<a href="https://clean-mazgan.co.il/%D7%9E%D7%97%D7%99%D7%A8%D7%95%D7%9F/">מזגן נקי</a>). כנראה זו התנגדות שכיחה <span class="tag e">הערכה</span>.</li>
+      </ul></div>
+    <div class="box"><h3>בעולם <span class="tag e">חלקי</span></h3>
+      <ul>
+        <li>חברת Air Duct Brothers דיווחה על עלייה של 375% בלידים אחרי עיצוב מחדש ו-SEO מקומי. זה דיווח של הסוכנות שביצעה את העבודה, והחברה גם שינתה שם באותה תקופה (<a href="https://www.smartsites.com/case-studies/air-duct-brothers-marketing/">SmartSites</a>) <span class="tag v">מאומת כדיווח</span>.</li>
+        <li>ברשימות "האתרים הטובים בתחום" חוזר אותו דפוס: הצעה ברורה תוך שניות, מחיר קבוע, ותיאום קל (<a href="https://freshysites.com/web-design-development/best-air-duct-cleaning-websites/">Freshy Sites</a>). זו רשימה של ספק שירותי עיצוב, לא דירוג בלתי תלוי.</li>
+        <li>לא מצאתי אתר של חברת ניקוי תעלות שזכה ב-Awwwards. את Awwwards, ‏Land-book ו-Godly לא סרקתי בסבב הזה <span class="tag x">לא נבדק</span>.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>מה מותר להבטיח, ומה אסור</h2>
+  <div class="box">
+    <p><span class="tag v">מאומת</span> הסוכנות להגנת הסביבה האמריקאית (<a href="https://www.epa.gov/indoor-air-quality-iaq/should-you-have-air-ducts-your-home-cleaned">EPA</a>) קובעת שלא הוכח שניקוי תעלות מונע בעיות בריאות. היא ממליצה על ניקוי במקרים מוגדרים: עובש נראה לעין, מזיקים, או הצטברות כבדה של אבק ולכלוך. היא גם מציינת שלא הוכחה יעילות של חומרי חיטוי כימיים בתעלות.</p>
+    <p><span class="tag e">מסקנה</span> האתר ידבר על מה שרואים ומריחים: ריח, אבק, עובש נראה ותחזוקה. הוא לא יבטיח "אוויר בריא" ולא יטען שהניקוי מונע מחלות. המילה "חיטוי" תופיע רק עם תנאי המבצע. זה גם מגן עליכם משפטית וגם בונה אמון.</p>
+  </div>
+</section>
+
+<section>
+  <h2>התנגדויות צפויות של לקוחות <span class="tag e">הערכה</span></h2>
+  <p>הרשימה מבוססת על השאלות שהמתחרים עונים עליהן באתרים שלהם. לא בדקתי ביקורות גולשים באופן שיטתי.</p>
+  <div class="grid2">
+    <div class="box"><ul>
+      <li>"יצטרכו לשבור לי את הגבס?"</li>
+      <li>"המחיר באתר נמוך, ובסוף יהיו תוספות."</li>
+      <li>"זה ילכלך לי את הבית."</li>
+      <li>"ניקיתי פילטרים, זה לא מספיק?"</li>
+    </ul></div>
+    <div class="box"><ul>
+      <li>"כמה זמן זה לוקח? צריך לפנות את המשרד?"</li>
+      <li>"מה עם הילדים והחומרים?"</li>
+      <li>"איך אדע שבאמת ניקו בפנים?" התשובה: וידאו לפני ואחרי.</li>
+      <li>לעסקים: "אני צריך הצעה מסודרת, חשבונית ותיעוד."</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>מילות מפתח וכוונות חיפוש</h2>
+  <p><span class="tag x">נפחי חיפוש לא נבדקו</span> אין לי גישה ל-Google Keyword Planner. אלה כוונות החיפוש שהמתחרים מכוונים אליהן, ולכל אחת מתאים עמוד באתר:</p>
+  <div class="tbl"><table>
+    <thead><tr><th>כוונה</th><th>דוגמאות</th><th>עמוד שעונה עליה</th></tr></thead>
+    <tbody>
+      <tr><td>מחיר</td><td>ניקוי מזגן מיני מרכזי מחיר, מחירון ניקוי מזגנים</td><td>מחירון ומחשבון</td></tr>
+      <tr><td>שירות</td><td>ניקוי תעלות מיזוג, ניקוי מזגן מיני מרכזי, ניקוי VRF</td><td>עמודי השירותים</td></tr>
+      <tr><td>בעיה</td><td>ריח רע מהמזגן, עובש במזגן, אבק מהמזגן</td><td>אזור החורף ומאמרים</td></tr>
+      <tr><td>מקומי</td><td>ניקוי מזגנים + שם עיר (ירושלים, אשדוד, נתניה…)</td><td>עמודי ערים לפי אזור השירות</td></tr>
+      <tr><td>עסקים</td><td>ניקוי מערכות מיזוג למשרדים, תחזוקת מיזוג למוסדות</td><td>פתרונות לעסקים</td></tr>
+    </tbody></table></div>
+</section>
+
+<section>
+  <h2>מה חסר לי ממך לפני הבנייה</h2>
+  <div class="grid2">
+    <div class="box"><h3>חומרים</h3><ul>
+      <li>לוגו בקובץ, כדי לשלוף ממנו את הצבעים המדויקים.</li>
+      <li>סרטוני עבודות בקובץ המקורי ובאיכות המלאה.</li>
+      <li>המלצות לקוחות, באישור הלקוחות.</li>
+      <li><b>תמונות לפני ואחרי:</b> סימנת שאין כרגע. אפשר לחלץ אותן מהסרטונים, בתנאי שזה אותו מקום לפני ואחרי. עד אז הגלריה לא תעלה.</li>
+    </ul></div>
+    <div class="box"><h3>נתונים לאימות</h3><ul>
+      <li>טלפון, מספר וואטסאפ ופרטי עוסק.</li>
+      <li>נוסח האחריות לשנה ונוסח "אין תוצאה, אין תשלום".</li>
+      <li>"מעל 2,000 לקוחות": מאיפה המספר?</li>
+      <li>"50% הנחה": מה היה המחיר הקודם בפועל? לפי הבנתי, ובכפוף לבדיקה משפטית, הנחה צריכה להתייחס למחיר שנגבה באמת.</li>
+      <li>"פריסה ארצית": בפרסום אתם עובדים מקריית גת עד חדרה וירושלים. מה נכון?</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>שלושה כיוונים עיצוביים</h2>
+  <p>כל הכיוונים משתמשים בצבעים שביקשת: כחול עמוק, תכלת, לבן וטורקיז. ההבדל ביניהם הוא העולם שממנו נלקחת השפה העיצובית. הסקיצות מראות רק את המבנה של מסך הפתיחה. הפלטה הסופית תיגזר מהלוגו.</p>
+
+  <article class="dir">
+    <div class="txt">
+      <div class="kick">כיוון א'</div>
+      <h3 style="font-size:1.35rem">שלטי העיר</h3>
+      <p>השפה העיצובית לקוחה משלטי הרחוב הכחולים מאמייל ומהבתים הלבנים בסגנון באוהאוס. אלה דימויים שכל ישראלי מכיר בלי לחשוב. הכותרות והמחירים נראים כמו לוחיות שלט. חלונות הסרט האופקיים של הבאוהאוס הם בדיוק המקום שבו עוברות התעלות.</p>
+      <div class="chips"><span class="chip" style="background:#0a3a8c"></span><span class="chip" style="background:#ffffff"></span><span class="chip" style="background:#f2f4f3"></span><span class="chip" style="background:#16b0a2"></span><span class="chip" style="background:#a9d6f0"></span></div>
+      <dl>
+        <dt>מסך פתיחה</dt><dd>לוחית שלט גדולה עם הכותרת. מתחתיה חתך של דירה לבנה עם תקרת גבס, שמראה את התעלה מבפנים, ושני כפתורי פעולה.</dd>
+        <dt>האינטראקציה הייחודית</dt><dd>בגלילה, החתך מראה את חמשת שלבי הניקוי בתוך התעלה: מברשת, שאיבה ותעלה נקייה.</dd>
+        <dt>בהמשך האתר</dt><dd>אזורי השירות מוצגים כשלטי ערים, מקריית גת עד חדרה. המחשבון נראה כמו לוח מחירים של שלט.</dd>
+        <dt>הסיכון</dt><dd>אם לא מקפידים על הביצוע, השפה עלולה להיראות עירונית ופחות טכנולוגית. צריך ליטוש גבוה כדי שתיראה פרימיום ולא נוסטלגית.</dd>
+      </dl>
+    </div>
+    <div class="sketch sA" aria-hidden="true">
+      <div class="nav"><span>המרכז למיזוג וחיטוי</span><span>☎ חיוג · וואטסאפ</span></div>
+      <div class="plate"><small>ניקוי וחיטוי מערכות מיזוג ותעלות אוויר</small><b>האוויר שאתם נושמים מתחיל בתוך המזגן שלכם</b></div>
+      <div class="ribbon"><i></i></div>
+      <div class="row"><span class="btn">קבלת הצעת מחיר</span><span class="btn o">חישוב מחיר הניקוי</span></div>
+      <div class="cities"><span>קריית גת</span><span>אשדוד</span><span>ירושלים</span><span>תל אביב</span><span>חדרה</span></div>
+    </div>
+  </article>
+
+  <article class="dir">
+    <div class="txt">
+      <div class="kick">כיוון ב' · ההמלצה שלי</div>
+      <h3 style="font-size:1.35rem">התריס</h3>
+      <p>הכיוון נבנה סביב תריס היניקה הלבן שבתקרה, החלק היחיד במערכת שהלקוח רואה כל יום, ולפעמים גם את חוטי האבק שעליו. מסך הפתיחה מציג את הסרטון האמיתי מתוך התעלה דרך להבי התריס. בגלילה, הלהבים נפתחים והצופה "נכנס" לתוך התעלה.</p>
+      <div class="chips"><span class="chip" style="background:#0b2540"></span><span class="chip" style="background:#fbfcfd"></span><span class="chip" style="background:#eef3f6"></span><span class="chip" style="background:#2bc4c0"></span><span class="chip" style="background:#9fd3ee"></span></div>
+      <dl>
+        <dt>מסך פתיחה</dt><dd>תקרה לבנה, ובמרכזה תריס גדול שמאחוריו רץ הסרטון האמיתי. הכותרת והכפתורים מופיעים מתחת לתריס.</dd>
+        <dt>האינטראקציה הייחודית</dt><dd>הלהבים נפתחים בגלילה, והמסע ממשיך לתוך התעלה דרך חמשת שלבי הניקוי. אנימציית GSAP מסונכרנת לגלילה.</dd>
+        <dt>בהמשך האתר</dt><dd>הלהבים חוזרים כמפריד בין אזורים וככפתור הסליידר של לפני ואחרי. אותה שפה משמשת את כל העמודים.</dd>
+        <dt>הסיכון</dt><dd>זה הכיוון המוכר ביותר מבין השלושה. "כניסה לתוך המוצר" היא טריק שראו בעבר, והאיכות שלו תלויה מאוד באיכות הסרטון שלכם.</dd>
+      </dl>
+    </div>
+    <div class="sketch sB" aria-hidden="true">
+      <div class="nav"><span>המרכז למיזוג וחיטוי</span><span>הצעת מחיר ←</span></div>
+      <div class="grille"></div>
+      <div style="display:grid;gap:8px"><h4>האוויר שאתם נושמים מתחיל בתוך המזגן שלכם</h4>
+      <div class="row"><span class="btn t">קבלת הצעת מחיר</span><span class="btn">חישוב מחיר</span><span class="btn">צפו בתוצאות</span></div></div>
+    </div>
+  </article>
+
+  <article class="dir">
+    <div class="txt">
+      <div class="kick">כיוון ג'</div>
+      <h3 style="font-size:1.35rem">דוח הבדיקה</h3>
+      <p>האתר בנוי כמו דוח בדיקה חתום: פריים ממצלמת הבדיקה עם חותמת זמן, רשימת סימונים וחותמת "נוקה ותועד". הכיוון מתאים במיוחד לעסקים ולמוסדות, שמחפשים תיעוד. גם בעל בית מקבל ממנו הוכחה ולא הבטחה.</p>
+      <div class="chips"><span class="chip" style="background:#122a3a"></span><span class="chip" style="background:#fbfcfc"></span><span class="chip" style="background:#0f1f2b"></span><span class="chip" style="background:#12968c"></span><span class="chip" style="background:#b8dcef"></span></div>
+      <dl>
+        <dt>מסך פתיחה</dt><dd>פריים ממצלמת הבדיקה של הסרטון האמיתי, עם שעון ומספר תעלה. לצידו "שורות הדוח" ושלושת הכפתורים.</dd>
+        <dt>האינטראקציה הייחודית</dt><dd>בגלילה, סעיפי הדוח מסתמנים אחד אחרי השני, וחותמת "נוקה ותועד" ננעלת בסוף התהליך.</dd>
+        <dt>בהמשך האתר</dt><dd>המחשבון נראה כמו טופס הצעת מחיר, וכל עבודה בגלריה כמו דוח. עמוד העסקים מקבל שפה של מסמך מקצועי.</dd>
+        <dt>הסיכון</dt><dd>הכיוון עלול להרגיש קר ומסמכי לבעלי בתים. צריך מספיק חום בצילום ובטקסט כדי לאזן.</dd>
+      </dl>
+    </div>
+    <div class="sketch sC" aria-hidden="true">
+      <div class="hd"><span>דוח ניקוי תעלות · המרכז למיזוג וחיטוי</span><span>תעלה 03</span></div>
+      <div class="feed"><span>מצלמת בדיקה</span><b>● REC</b><em>00:42:17</em></div>
+      <h4>האוויר שאתם נושמים מתחיל בתוך המזגן שלכם</h4>
+      <div class="checks"><div>שאיבה 3,600W</div><div>סינון HEPA</div><div>מברשות לתעלה</div><div>תיעוד לפני/אחרי</div></div>
+      <span class="btn">קבלת הצעת מחיר</span>
+      <div class="stamp">נוקה ותועד</div>
+    </div>
+  </article>
+  <p class="note">הסקיצות מראות רק מבנה. הן לא העיצוב הסופי, ואין בהן תמונות או סרטונים אמיתיים עדיין.</p>
+</section>
+</div>

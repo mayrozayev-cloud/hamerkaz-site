@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { business } from '../data/site';
+const updated = '25.11.2026';
+---
+<Base title="הצהרת נגישות" description="הצהרת הנגישות של אתר המרכז למיזוג וחיטוי.">
+  <PageHead title="הצהרת נגישות" />
+  <section class="section"><div class="wrap acc">
+    <p>אנו רואים חשיבות בהנגשת האתר לכלל המשתמשים, ובכלל זה לאנשים עם מוגבלות. האתר נבנה בהתאם להנחיות WCAG 2.2 ברמה AA ולתקן הישראלי ת"י 5568.</p>
+    <h2>מה נעשה באתר</h2>
+    <ul>
+      <li>מבנה כותרות סמנטי ותמיכה מלאה בעברית ובכיוון כתיבה מימין לשמאל.</li>
+      <li>ניווט מלא במקלדת, עם סימון פוקוס ברור וקישור לדילוג לתוכן.</li>
+      <li>טקסט חלופי לתמונות, וכיתוב לסרטונים.</li>
+      <li>ניגודיות צבעים לפי ההנחיות.</li>
+      <li>מצב "הפחתת תנועה": אם הוא מוגדר במכשיר, האנימציות באתר נעצרות.</li>
+    </ul>
+    <h2>יצירת קשר בנושא נגישות</h2>
+    <p>נתקלתם בבעיה? נשמח לשמוע ולתקן. רכז/ת הנגישות: {business.phone ? `טלפון ${business.phone}` : 'פרטי קשר יעודכנו'}{business.email ? `, דוא"ל ${business.email}` : ''}.</p>
+    <p class="muted">עודכן לאחרונה: {updated}</p>
+  </div></section>
+</Base>
+<style>.acc { max-width: 760px; display: grid; gap: 1rem; } .acc h2 { font-size: var(--step-2); margin-top: 1rem; } .acc ul { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: .4rem; }</style>

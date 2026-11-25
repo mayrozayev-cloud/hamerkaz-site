@@ -1,0 +1,7 @@
+---
+interface Props { title: string; lede?: string }
+const { title, lede } = Astro.props;
+---
+<section class="ph"><div class="wrap stack" style="gap:.8rem"><h1>{title}</h1>{lede && <p class="lede">{lede}</p>}</div></section>
+<div class="louvers" aria-hidden="true"></div>
+<style>.ph { padding-block: var(--space-l) var(--space-m); } h1 { font-size: var(--step-4); letter-spacing: -.025em; }</style>

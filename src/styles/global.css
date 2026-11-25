@@ -1,0 +1,102 @@
+/* World: ceiling plaster white above, duct navy behind the grille. Turquoise = clean air and the primary action only. */
+@import '@fontsource/heebo/hebrew-800.css';
+@import '@fontsource/heebo/hebrew-900.css';
+@import '@fontsource/heebo/latin-800.css';
+@import '@fontsource/assistant/hebrew-400.css';
+@import '@fontsource/assistant/hebrew-600.css';
+@import '@fontsource/assistant/hebrew-700.css';
+@import '@fontsource/assistant/latin-400.css';
+@import '@fontsource/assistant/latin-700.css';
+
+:root {
+  --ceiling: #f3f6f8;      /* plaster */
+  --ceiling-2: #e6ecf0;    /* plaster in shadow */
+  --paper: #ffffff;
+  --navy: #0a2a62;         /* logo wordmark */
+  --blue: #1a4e8e;         /* logo drop */
+  --duct: #08182f;         /* inside the duct */
+  --duct-2: #102746;
+  --tchelet: #a7d8f0;      /* airflow */
+  --turq: #2cc3b5;         /* clean air, primary action */
+  --turq-ink: #062f2c;
+  --silver: #c3ced8;       /* louvers in shade */
+  --ink: #0d1c2e;
+  --muted: #475a6b;
+  --line: #d3dde4;
+  --on-duct: #e8f1f8;
+  --on-duct-muted: #a9bdd0;
+
+  --display: 'Heebo', 'Assistant', system-ui, sans-serif;
+  --body: 'Assistant', 'Heebo', system-ui, sans-serif;
+
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);
+  --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.2rem);
+  --step-3: clamp(2rem, 1.5rem + 2.6vw, 3.6rem);
+  --step-4: clamp(2.4rem, 1.6rem + 4vw, 5.2rem);
+
+  --space-s: clamp(0.75rem, 0.6rem + 0.6vw, 1.1rem);
+  --space-m: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+  --space-l: clamp(2.5rem, 1.8rem + 3vw, 5rem);
+  --space-xl: clamp(4rem, 3rem + 5vw, 8rem);
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  --radius: 6px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; scroll-padding-bottom: 96px; }
+body {
+  margin: 0; background: var(--ceiling); color: var(--ink);
+  font-family: var(--body); font-size: var(--step-0); line-height: 1.7;
+  text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased;
+}
+img, video { max-width: 100%; display: block; }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 900; line-height: 1.08; letter-spacing: -0.015em; margin: 0; text-wrap: balance; color: var(--navy); }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); font-weight: 800; letter-spacing: 0; line-height: 1.25; }
+p { margin: 0; max-width: 66ch; text-wrap: pretty; }
+a { color: var(--blue); text-underline-offset: 0.2em; text-decoration-thickness: 1.5px; }
+a:hover { color: var(--navy); }
+::selection { background: var(--tchelet); color: var(--navy); }
+:focus-visible { outline: 3px solid var(--turq); outline-offset: 3px; border-radius: 3px; }
+html { scrollbar-color: var(--blue) var(--ceiling-2); }
+
+.wrap { width: 100%; max-width: 1200px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.section { padding-block: var(--space-xl); }
+.stack { display: grid; gap: var(--space-m); }
+.lede { font-size: var(--step-1); color: var(--muted); line-height: 1.55; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55em;
+  min-height: 52px; padding: 0.7em 1.4em; border-radius: 999px; border: 2px solid transparent;
+  font-family: var(--display); font-weight: 800; font-size: 1.02rem; text-decoration: none; cursor: pointer;
+  transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out), background-color .2s;
+}
+.icon { width: 1.2em; height: 1.2em; flex: none; }
+.btn-primary { background: var(--turq); color: var(--turq-ink); box-shadow: 0 6px 18px -6px rgb(44 195 181 / 0.65); }
+.btn-primary:hover { color: var(--turq-ink); transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgb(44 195 181 / 0.75); }
+.btn-navy { background: var(--navy); color: #fff; }
+.btn-navy:hover { color: #fff; background: var(--blue); }
+.btn-line { background: transparent; color: var(--navy); border-color: var(--navy); }
+.btn-line:hover { background: var(--navy); color: #fff; }
+.on-duct .btn-line { color: var(--on-duct); border-color: var(--on-duct-muted); }
+.on-duct .btn-line:hover { background: var(--on-duct); color: var(--duct); }
+
+/* Duct-world sections */
+.on-duct { background: var(--duct); color: var(--on-duct); }
+.on-duct h2, .on-duct h3 { color: #fff; }
+.on-duct .lede, .on-duct .muted { color: var(--on-duct-muted); }
+
+/* Louver divider: the grille blades as the page's seam */
+.louvers { height: 46px; background:
+  repeating-linear-gradient(180deg, var(--paper) 0 7px, var(--silver) 7px 8px, var(--ceiling-2) 8px 11px);
+  border-block: 6px solid var(--paper); box-shadow: 0 1px 0 var(--line), 0 -1px 0 var(--line); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

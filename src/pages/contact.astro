@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import QuoteWizard from '../components/QuoteWizard.astro';
+import { business, waLink, telLink } from '../data/site';
+---
+<Base title="צור קשר" description="צרו קשר עם המרכז למיזוג וחיטוי בוואטסאפ, בטלפון או בטופס קצר.">
+  <PageHead title="צור קשר" lede={`אנחנו עובדים ${business.areaSummary}.`} />
+  <section class="section"><div class="wrap row">
+    <a class="btn btn-primary" href={waLink()}><Icon name="whatsapp" />כתבו לנו בוואטסאפ</a>
+    <a class="btn btn-navy" href={telLink()}><Icon name="phone" />{business.phone ?? 'חיוג'}</a>
+  </div></section>
+  <div id="form"><QuoteWizard showFaq={false} /></div>
+</Base>
+<style>.row { display: flex; gap: .8rem; flex-wrap: wrap; }</style>

@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import { waLink } from '../data/site';
+// Real testimonials only, each with the customer's consent. Add entries here: { name, city, text, video? }
+const testimonials: { name: string; city: string; text: string; video?: string }[] = [];
+---
+<Base title="המלצות לקוחות" description="המלצות של לקוחות המרכז למיזוג וחיטוי." noindex={testimonials.length === 0}>
+  <PageHead title="המלצות לקוחות" />
+  <section class="section"><div class="wrap stack">
+    {testimonials.length === 0 ? (
+      <div class="empty stack">
+        <h2>ההמלצות בדרך לכאן.</h2>
+        <p class="lede">אנחנו מעלים רק המלצות אמיתיות, באישור הלקוחות. בינתיים אפשר לראות את העבודות עצמן.</p>
+        <div class="row"><a class="btn btn-navy" href="/gallery">לגלריית העבודות</a><a class="btn btn-line" href={waLink('שלום, עבדתם אצלי ואשמח להמליץ')}><Icon name="whatsapp" />עבדנו אצלכם? ספרו לנו</a></div>
+      </div>
+    ) : (
+      <ul class="tl">{testimonials.map((t) => <li><blockquote>{t.text}</blockquote><p class="who">{t.name}, {t.city}</p></li>)}</ul>
+    )}
+  </div></section>
+</Base>
+<style>
+  .empty { max-width: 60ch; } .row { display: flex; gap: .7rem; flex-wrap: wrap; }
+  .tl { list-style: none; padding: 0; margin: 0; columns: 2 320px; gap: var(--space-m); }
+  .tl li { break-inside: avoid; margin-bottom: var(--space-m); border-top: 2px solid var(--navy); padding-top: 1rem; }
+  blockquote { margin: 0; font-size: var(--step-1); line-height: 1.5; } .who { color: var(--muted); margin-top: .5rem; font-weight: 700; }
+</style>

@@ -1,0 +1,142 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { business, services, waLink, telLink } from '../data/site';
+interface Props { title: string; description: string; path?: string; noindex?: boolean }
+const { title, description, path = Astro.url.pathname, noindex = false } = Astro.props;
+const canonical = new URL(path, business.url).toString();
+const fullTitle = path === '/' ? `${business.name} | ניקוי וחיטוי תעלות ומערכות מיזוג` : `${title} | ${business.name}`;
+const schema = {
+  '@context': 'https://schema.org', '@type': 'HVACBusiness', name: business.name, url: business.url,
+  logo: new URL('/img/logo.png', business.url).toString(),
+  ...(business.phone ? { telephone: business.phone } : {}),
+  areaServed: business.areas.map((a) => ({ '@type': 'City', name: a })),
+  knowsAbout: services.map((s) => s.title),
+};
+const nav = [
+  { href: '/services/duct-cleaning', label: 'ניקוי תעלות' },
+  { href: '/services/mini-central', label: 'מיני מרכזי' },
+  { href: '/services/wall-units', label: 'מזגנים עיליים' },
+  { href: '/services/vrf', label: 'VRF' },
+  { href: '/services/business', label: 'לעסקים' },
+  { href: '/gallery', label: 'עבודות' },
+  { href: '/about', label: 'אודות' },
+];
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="he_IL" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL('/img/grille-open.jpg', business.url).toString()} />
+  <meta name="theme-color" content="#f3f6f8" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
+<body>
+  <a class="skip" href="#main">דילוג לתוכן</a>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="/" aria-label={`${business.name}, לעמוד הבית`}>
+        <img src="/img/logo-mark.png" alt="" width="52" height="46" />
+        <span><b>המרכז</b><small>למיזוג וחיטוי</small></span>
+      </a>
+      <nav aria-label="ראשי" class="nav">
+        <ul>{nav.map((n) => <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>)}</ul>
+      </nav>
+      <a class="btn btn-primary head-cta" href="/#quote">קבלת הצעת מחיר</a>
+      <details class="menu">
+        <summary aria-label="תפריט"><span></span><span></span><span></span></summary>
+        <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}<li><a href="/articles">מאמרים</a></li><li><a href="/contact">צור קשר</a></li></ul>
+      </details>
+    </div>
+  </header>
+
+  <main id="main"><slot /></main>
+
+  <footer class="site-footer on-duct">
+    <div class="wrap foot">
+      <div class="stack" style="gap:.8rem">
+        <img src="/img/logo.png" alt={business.name} width="96" height="98" class="foot-logo" />
+        <p class="muted">ניקוי וחיטוי של מערכות מיזוג ותעלות אוויר. {business.areaSummary}.</p>
+      </div>
+      <nav aria-label="שירותים"><h3>שירותים</h3><ul>{services.map((s) => <li><a href={`/services/${s.slug}`}>{s.title}</a></li>)}</ul></nav>
+      <nav aria-label="מידע"><h3>מידע</h3><ul>
+        <li><a href="/gallery">גלריית עבודות</a></li><li><a href="/testimonials">המלצות</a></li><li><a href="/articles">מאמרים</a></li>
+        <li><a href="/about">אודות</a></li><li><a href="/contact">צור קשר</a></li><li><a href="/accessibility">הצהרת נגישות</a></li>
+      </ul></nav>
+      <div class="stack" style="gap:.6rem">
+        <h3>דברו איתנו</h3>
+        <a class="btn btn-primary" href={waLink()}><Icon name="whatsapp" />וואטסאפ</a>
+        <a class="btn btn-line" href={telLink()}><Icon name="phone" />{business.phone ?? 'חיוג'}</a>
+      </div>
+    </div>
+    <div class="wrap copy muted">© {new Date().getFullYear()} {business.name}</div>
+  </footer>
+
+  <div class="mobile-bar" role="region" aria-label="יצירת קשר מהירה">
+    <a href={waLink()} class="mb-wa"><Icon name="whatsapp" />וואטסאפ</a>
+    <a href={telLink()} class="mb-call"><Icon name="phone" />חיוג</a>
+    <a href="/#quote" class="mb-quote">הצעת מחיר</a>
+  </div>
+</body>
+</html>
+
+<style>
+  .skip { position: absolute; inset-inline-start: 1rem; top: -100px; background: var(--navy); color: #fff; padding: .6rem 1rem; z-index: 100; border-radius: var(--radius); }
+  .skip:focus { top: 1rem; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ceiling); }
+  .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: color-mix(in srgb, var(--ceiling) 92%, transparent); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; gap: 1.25rem; min-height: 72px; }
+  .brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--navy); }
+  .brand img { width: 52px; height: auto; }
+  .brand span { display: grid; line-height: 1; font-family: var(--display); }
+  .brand b { font-size: 1.35rem; font-weight: 900; }
+  .brand small { font-size: .82rem; font-weight: 800; color: var(--blue); margin-top: .2rem; }
+  .nav { margin-inline-start: auto; }
+  .nav ul { display: flex; gap: .2rem; list-style: none; margin: 0; padding: 0; }
+  .nav a { display: block; padding: .5rem .7rem; border-radius: 999px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: .98rem; }
+  .nav a:hover, .nav a[aria-current] { background: var(--ceiling-2); color: var(--navy); }
+  .head-cta { min-height: 44px; padding-block: .45em; }
+  .menu { display: none; position: relative; }
+  .menu summary { list-style: none; width: 44px; height: 44px; display: grid; place-content: center; gap: 5px; cursor: pointer; border-radius: 8px; }
+  .menu summary::-webkit-details-marker { display: none; }
+  .menu summary span { width: 22px; height: 2px; background: var(--navy); border-radius: 2px; }
+  .menu ul { position: absolute; inset-inline-end: 0; top: 52px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 18px 40px -18px rgb(10 42 98 / .35); list-style: none; padding: .5rem; margin: 0; min-width: 220px; }
+  .menu a { display: block; padding: .7rem .9rem; text-decoration: none; color: var(--ink); font-weight: 700; border-radius: 6px; }
+  .menu a:hover { background: var(--ceiling); }
+  @media (max-width: 1060px) { .nav { display: none; } .menu { display: block; margin-inline-start: auto; } }
+  @media (max-width: 560px) { .head-cta { display: none; } }
+
+  .site-footer { padding-block: var(--space-l) calc(var(--space-m) + 80px); }
+  .foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-m); }
+  .foot h3 { font-size: 1rem; margin-bottom: .6rem; }
+  .foot ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .35rem; }
+  .foot a:not(.btn) { color: var(--on-duct); text-decoration: none; }
+  .foot a:not(.btn):hover { text-decoration: underline; }
+  .foot-logo { background: var(--paper); border-radius: 10px; padding: 8px; width: 96px; }
+  .copy { margin-top: var(--space-l); font-size: .9rem; color: var(--on-duct-muted); }
+  @media (max-width: 860px) { .foot { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .foot { grid-template-columns: 1fr; } }
+
+  .mobile-bar { display: none; }
+  @media (max-width: 760px) {
+    .mobile-bar { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px; position: fixed; inset: auto 0 0; z-index: 70;
+      padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+      background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
+    .mobile-bar a { display: flex; align-items: center; justify-content: center; gap: .4rem; min-height: 48px; border-radius: 999px; font-family: var(--display); font-weight: 800; text-decoration: none; font-size: .98rem; }
+    .mobile-bar :global(.icon) { width: 1.2em; height: 1.2em; }
+    .mb-wa { background: var(--turq); color: var(--turq-ink); }
+    .mb-call { background: var(--navy); color: #fff; }
+    .mb-quote { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+  }
+</style>
