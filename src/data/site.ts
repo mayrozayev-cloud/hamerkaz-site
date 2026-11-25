@@ -4,7 +4,7 @@ export const business = {
   phone: '050-447-6459' as string | null,
   whatsapp: '972504476459' as string | null,
   email: 'airpure2015@gmail.com' as string | null,
-  url: 'https://hamerkaz-site.vercel.app', // TODO: replace with the real domain
+  url: 'https://hamerkaz-ac.co.il',
   areas: ['קריית גת', 'אשקלון', 'אשדוד', 'רחובות', 'ראשון לציון', 'מודיעין', 'בית שמש', 'ירושלים', 'גוש דן', 'פתח תקווה', 'ראש העין', 'הרצליה', 'כפר סבא', 'רעננה', 'נתניה', 'חדרה'],
   areaSummary: 'מקריית גת ועד חדרה, כולל ירושלים והסביבה',
 };
