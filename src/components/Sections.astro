@@ -1,31 +1,16 @@
 ---
 // Home-page body sections between the duct journey and the quote area.
 import Icon from './Icon.astro';
-import { equipment, services, problems } from '../data/site';
+import { equipment, services } from '../data/site';
 const reels = [
   { src: '/video/reel1.mp4', poster: '/video/reel1.jpg', t: 'פתיחת תריס ושאיבת התעלה' },
   { src: '/video/reel2.mp4', poster: '/video/reel2.jpg', t: 'שאיבה של 3,600W לתוך התעלה' },
   { src: '/video/reel3.mp4', poster: '/video/reel3.jpg', t: 'מה שיוצא מהתעלות' },
 ];
 ---
-<section class="section filter" aria-labelledby="filter-title">
-  <div class="wrap fv">
-    <div class="fv-copy stack">
-      <h2 id="filter-title">שטיפת פילטר היא לא ניקוי תעלות.</h2>
-      <p class="lede">הפילטר עוצר רק חלק מהאבק. מה שעובר אותו נדבק לדפנות התעלות ולמאייד, ושם הוא נשאר גם אחרי שהפילטר נוצץ.</p>
-      <p>מימין, שטיפת פילטר. משמאל, שק השאיבה אחרי ניקוי תעלות באותו בית. שני הצילומים מעבודות שלנו.</p>
-      <a class="btn btn-navy" href="#quote">בדקו את המערכת שלכם</a>
-    </div>
-    <figure class="ph ph-a"><img src="/img/filter-wash.webp" alt="שטיפת פילטר של מזגן במים על גג" width="900" height="1120" loading="lazy" /><figcaption>מה שרוב האנשים מנקים</figcaption></figure>
-    <figure class="ph ph-b"><img src="/img/dust-bag.webp" alt="שק שאיבה מלא אבק אפור שנשאב מתוך תעלות מיזוג" width="900" height="1120" loading="lazy" /><figcaption>מה שנשאב מהתעלות</figcaption></figure>
-  </div>
-</section>
-
-<div class="louvers" aria-hidden="true"></div>
-
 <section class="section gear" aria-labelledby="gear-title">
   <div class="wrap gear-grid">
-    <figure class="gear-ph"><img src="/img/hose-duct.webp" alt="צינור שאיבה שחור מוכנס לפתח תעלה בתקרה" width="900" height="1120" loading="lazy" /></figure>
+    <figure class="gear-ph"><img src="/img/crew-hose.webp" alt="טכנאי מחזיק את צינור השאיבה של 3,600W בתוך פתח תעלה" width="900" height="917" loading="lazy" /></figure>
     <div class="stack">
       <h2 id="gear-title">הציוד שנכנס לתעלה</h2>
       <p class="lede">כדי לנקות תעלה צריך להגיע לתוכה. זה הציוד שאיתו אנחנו מגיעים לכל עבודה.</p>
@@ -42,17 +27,6 @@ const reels = [
     <ul class="svc">
       {services.map((s) => <li><a href={`/services/${s.slug}`}><span class="st">{s.title}</span><span class="sd">{s.short}</span><Icon name="arrow" class="go" /></a></li>)}
     </ul>
-  </div>
-</section>
-
-<section class="section problems" aria-labelledby="prob-title">
-  <div class="wrap stack">
-    <h2 id="prob-title">מכירים את זה?</h2>
-    <p class="lede">התסמין, הסיבה, ומה עושים איתה.</p>
-    <div class="prob-table" role="table" aria-label="בעיות נפוצות ופתרונות">
-      <div class="pr head" role="row"><span role="columnheader">מה מרגישים</span><span role="columnheader">למה זה קורה</span><span role="columnheader">מה אנחנו עושים</span></div>
-      {problems.map((p) => <div class="pr" role="row"><b role="cell">{p.t}</b><span role="cell">{p.cause}</span><span role="cell">{p.fix}</span></div>)}
-    </div>
   </div>
 </section>
 

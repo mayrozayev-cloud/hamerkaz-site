@@ -2,8 +2,9 @@
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import { business, services, waLink, telLink } from '../data/site';
-interface Props { title: string; description: string; path?: string; noindex?: boolean }
-const { title, description, path = Astro.url.pathname, noindex = false } = Astro.props;
+import { pixelId } from '../data/offer';
+interface Props { title: string; description: string; path?: string; noindex?: boolean; schema?: object; bare?: boolean }
+const { title, description, path = Astro.url.pathname, noindex = false, schema: extraSchema, bare = false } = Astro.props;
 const canonical = new URL(path, business.url).toString();
 const fullTitle = path === '/' ? `${business.name} | ניקוי וחיטוי תעלות ומערכות מיזוג` : `${title} | ${business.name}`;
 const schema = {
@@ -41,8 +42,14 @@ const nav = [
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  {extraSchema && <script type="application/ld+json" set:html={JSON.stringify(extraSchema)} />}
+  <link rel="preload" as="image" href="/video/hero-wide-poster.jpg" fetchpriority="high" />
+  <script is:inline define:vars={{ pixelId }}>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', pixelId); fbq('track', 'PageView');
+  </script>
 </head>
-<body>
+<body class:list={[{ bare }]}>
   <a class="skip" href="#main">דילוג לתוכן</a>
   <header class="site-header">
     <div class="wrap bar">
@@ -53,7 +60,7 @@ const nav = [
       <nav aria-label="ראשי" class="nav">
         <ul>{nav.map((n) => <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>)}</ul>
       </nav>
-      <a class="btn btn-primary head-cta" href="/#quote">קבלת הצעת מחיר</a>
+      <a class="btn btn-primary head-cta" href="/#price">חשבו מחיר</a>
       <details class="menu">
         <summary aria-label="תפריט"><span></span><span></span><span></span></summary>
         <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}<li><a href="/articles">מאמרים</a></li><li><a href="/contact">צור קשר</a></li></ul>
@@ -76,18 +83,19 @@ const nav = [
       </ul></nav>
       <div class="stack" style="gap:.6rem">
         <h3>דברו איתנו</h3>
-        <a class="btn btn-primary" href={waLink()}><Icon name="whatsapp" />וואטסאפ</a>
-        <a class="btn btn-line" href={telLink()}><Icon name="phone" />{business.phone ?? 'חיוג'}</a>
+        <a class="btn btn-primary" href={waLink()} data-track="Contact"><Icon name="whatsapp" />וואטסאפ</a>
+        <a class="btn btn-line" href={telLink()} data-track="Contact"><Icon name="phone" />{business.phone ?? 'חיוג'}</a>
       </div>
     </div>
     <div class="wrap copy muted">© {new Date().getFullYear()} {business.name}</div>
   </footer>
 
   <div class="mobile-bar" role="region" aria-label="יצירת קשר מהירה">
-    <a href={waLink()} class="mb-wa"><Icon name="whatsapp" />וואטסאפ</a>
-    <a href={telLink()} class="mb-call"><Icon name="phone" />חיוג</a>
-    <a href="/#quote" class="mb-quote">הצעת מחיר</a>
+    <a href={waLink()} class="mb-wa" data-track="Contact"><Icon name="whatsapp" />וואטסאפ</a>
+    <a href={telLink()} class="mb-call" data-track="Contact"><Icon name="phone" />חיוג</a>
+    <a href="/#price" class="mb-quote">חשבו מחיר</a>
   </div>
+  <script>import '../scripts/track';</script>
 </body>
 </html>
 
@@ -108,6 +116,8 @@ const nav = [
   .nav a:hover, .nav a[aria-current] { background: var(--ceiling-2); color: var(--navy); }
   .head-cta { min-height: 44px; padding-block: .45em; }
   .menu { display: none; position: relative; }
+  :global(body.bare) .nav, :global(body.bare) .menu, :global(body.bare) .foot nav { display: none !important; }
+  :global(body.bare) .bar { justify-content: space-between; }
   .menu summary { list-style: none; width: 44px; height: 44px; display: grid; place-content: center; gap: 5px; cursor: pointer; border-radius: 8px; }
   .menu summary::-webkit-details-marker { display: none; }
   .menu summary span { width: 22px; height: 2px; background: var(--navy); border-radius: 2px; }

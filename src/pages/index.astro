@@ -1,13 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import DuctJourney from '../components/DuctJourney.astro';
+import Symptoms from '../components/Symptoms.astro';
+import Duct3D from '../components/Duct3D.astro';
+import Proof from '../components/Proof.astro';
+import PriceCalc from '../components/PriceCalc.astro';
 import Sections from '../components/Sections.astro';
 import QuoteWizard from '../components/QuoteWizard.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import { faq } from '../data/site';
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
-<Base title="ניקוי וחיטוי תעלות ומערכות מיזוג" description="ניקוי וחיטוי מקצועי של תעלות מיזוג, מזגנים מיני מרכזיים, עיליים ומערכות VRF. הברשה ושאיבה בתוך התעלה, סינון HEPA ותיעוד לפני ואחרי.">
+<Base title="ניקוי וחיטוי תעלות ומערכות מיזוג" description="ניקוי וחיטוי של תעלות מיזוג ומזגנים מיני מרכזיים מבפנים: הברשה ושאיבה של 3,600W עם סינון HEPA, תיעוד לפני ואחרי ואחריות לשנה. חשבו מחיר בדקה." schema={faqSchema}>
   <Hero />
-  <DuctJourney />
+  <Symptoms />
+  <Duct3D />
+  <Proof part="ba" />
+  <PriceCalc />
   <Sections />
-  <QuoteWizard />
+  <Proof part="tst" />
+  <QuoteWizard wizard={false} />
+  <FinalCTA />
 </Base>

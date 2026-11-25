@@ -1,0 +1,93 @@
+---
+// Before/after sliders and testimonials. Real material only (src/data/proof.ts).
+// On preview builds an empty list shows a marked slot so the owner sees where the material goes; production hides it.
+import Icon from './Icon.astro';
+import { beforeAfter, testimonials, rating } from '../data/proof';
+import { waLink } from '../data/site';
+const preview = process.env.VERCEL_ENV !== 'production';
+interface Props { part: 'ba' | 'tst' }
+const { part } = Astro.props;
+---
+{part === 'ba' && (beforeAfter.length > 0 || preview) && (
+<section class="section ba" aria-labelledby="ba-title">
+  <div class="wrap stack">
+    <h2 id="ba-title">לפני ואחרי. אותה תעלה, אותו יום.</h2>
+    {beforeAfter.length ? (
+      <div class="ba-grid">
+        {beforeAfter.map((p, i) => (
+          <figure class="slider" data-ba style="--pos: 50%">
+            <img src={p.after} alt={`אחרי: ${p.title}`} loading="lazy" width="1200" height="900" />
+            <div class="before"><img src={p.before} alt={`לפני: ${p.title}`} loading="lazy" width="1200" height="900" /></div>
+            <span class="tag t-b">לפני</span><span class="tag t-a">אחרי</span>
+            <span class="handle" aria-hidden="true"><Icon name="arrow" /></span>
+            <input type="range" min="0" max="100" value="50" aria-label={`השוואת לפני ואחרי: ${p.title}`} id={`ba-${i}`} />
+            <figcaption>{p.title}{p.place && ` · ${p.place}`}</figcaption>
+          </figure>
+        ))}
+      </div>
+    ) : (
+      <div class="slot"><b>מקום לסליידרים של לפני ואחרי</b><p>הסליידר בנוי ומוכן. הוא יופיע באתר ברגע שיהיו צילומים אמיתיים של אותה תעלה או אותו מזגן, לפני הניקוי ואחריו, מאותה זווית. החלק הזה מוצג רק בסביבת הבדיקות.</p></div>
+    )}
+  </div>
+</section>
+)}
+
+{part === 'tst' && (testimonials.length > 0 || preview) && (
+<section class="section tst on-duct" aria-labelledby="t-title">
+  <div class="wrap stack">
+    <div class="t-head">
+      <h2 id="t-title">מה הלקוחות אומרים</h2>
+      {rating && <a class="rating" href={rating.url} target="_blank" rel="noopener"><b>{rating.score.toFixed(1)}</b><span>{rating.count} ביקורות ב{rating.source}</span></a>}
+    </div>
+    {testimonials.length ? (
+      <ul class="t-list">
+        {testimonials.map((t) => (
+          <li>
+            {t.video && <video controls playsinline preload="none" poster={t.poster} width="720" height="1280"><source src={t.video} type="video/mp4" /></video>}
+            <blockquote>{t.text}</blockquote>
+            <p class="who"><b>{t.name}</b>, {t.city}{t.system && ` · ${t.system}`}</p>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="slot dark"><b>מקום להמלצות</b><p>אזור ההמלצות בנוי ותומך בטקסט, בשם, בעיר, בסוג המערכת ובסרטון. הוא יופיע באתר עם ההמלצות האמיתיות שתשלחו, באישור הלקוחות. החלק הזה מוצג רק בסביבת הבדיקות.</p><a class="btn btn-line" href={waLink('שלום, אני רוצה לשלוח המלצות לאתר')}>שליחת המלצות</a></div>
+    )}
+  </div>
+</section>
+)}
+
+<style>
+  .ba-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--space-m); }
+  .slider { position: relative; margin: 0; border-radius: 14px; overflow: hidden; aspect-ratio: 4/3; background: #000; user-select: none; touch-action: pan-y; }
+  .slider > img, .before img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .before { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--pos)); }
+  .handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 3px; background: #fff; transform: translateX(-50%); pointer-events: none; }
+  .handle :global(.icon) { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; padding: 10px; border-radius: 50%; background: #fff; color: var(--navy); box-shadow: 0 6px 20px rgb(0 0 0 / .35); }
+  .slider input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; direction: ltr; }
+  .slider input:focus-visible ~ .handle { outline: 3px solid var(--turq); }
+  .tag { position: absolute; top: .8rem; padding: .2rem .7rem; border-radius: 999px; font-weight: 800; font-size: .85rem; background: rgb(5 16 34 / .7); color: #fff; }
+  .t-b { right: .8rem; } .t-a { left: .8rem; background: var(--turq); color: var(--turq-ink); }
+  .slider figcaption { position: absolute; bottom: 0; inset-inline: 0; padding: .8rem 1rem; background: linear-gradient(to top, rgb(0 0 0 / .65), transparent); color: #fff; font-weight: 700; }
+  .slot { border: 2px dashed var(--line); border-radius: 14px; padding: 1.4rem; display: grid; gap: .5rem; max-width: 70ch; color: var(--muted); }
+  .slot b { color: var(--navy); font-family: var(--display); font-weight: 800; font-size: 1.1rem; }
+  .slot.dark { border-color: rgb(255 255 255 / .25); color: var(--on-duct-muted); }
+  .slot.dark b { color: #fff; }
+  .slot .btn { justify-self: start; }
+  .t-head { display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; }
+  .rating { display: flex; gap: .6rem; align-items: center; color: #fff; text-decoration: none; }
+  .rating b { font-family: var(--display); font-size: 2.4rem; font-weight: 900; color: var(--turq); }
+  .t-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--space-m); }
+  .t-list li { display: grid; gap: .8rem; align-content: start; border-top: 2px solid var(--turq); padding-top: 1rem; }
+  .t-list video { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 10px; }
+  blockquote { margin: 0; font-size: var(--step-1); line-height: 1.5; color: #fff; }
+  .who { color: var(--on-duct-muted); }
+  .who b { color: #fff; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ba]').forEach((s) => {
+    const r = s.querySelector<HTMLInputElement>('input')!;
+    const set = () => s.style.setProperty('--pos', `${r.value}%`);
+    r.addEventListener('input', set); set();
+  });
+</script>

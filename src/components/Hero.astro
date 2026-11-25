@@ -1,8 +1,9 @@
 ---
 import Icon from './Icon.astro';
 import { guarantees, waLink } from '../data/site';
+import { offer, prices } from '../data/offer';
 ---
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero" aria-labelledby="hero-title" data-hero>
   <video class="bg" autoplay muted loop playsinline preload="metadata" poster="/video/hero-wide-poster.jpg" aria-hidden="true" tabindex="-1">
     <source src="/video/hero-loop.webm" type="video/webm" media="(max-width: 760px)" />
     <source src="/video/hero-loop.mp4" type="video/mp4" media="(max-width: 760px)" />
@@ -10,15 +11,23 @@ import { guarantees, waLink } from '../data/site';
     <source src="/video/hero-wide.mp4" type="video/mp4" />
   </video>
   <div class="shade" aria-hidden="true"></div>
+  <canvas class="air" aria-hidden="true" data-air></canvas>
 
   <div class="wrap content">
     <div class="copy">
-      <h1 id="hero-title">האוויר שאתם נושמים מתחיל בתוך המזגן שלכם.</h1>
-      <p class="sub">ניקוי וחיטוי מקצועי של מערכות מיזוג ותעלות אוויר, בטכנולוגיה מתקדמת ובשיטת ניקוי אמריקאית.</p>
+      {offer.active && (
+        <a class="offer" href="#price">
+          <span class="o-tag">{offer.title}</span>
+          <span class="o-txt">יחידה פנימית <b>₪{prices.miniCentralUnit}</b> · תעלה מ-<b>₪{prices.ductFrom}</b> · {offer.gift}</span>
+          <Icon name="arrow" />
+        </a>
+      )}
+      <h1 id="hero-title"><span class="l1">האוויר שאתם נושמים</span> <span class="l2">מתחיל בתוך המזגן שלכם.</span></h1>
+      <p class="sub">ניקוי וחיטוי של מערכות מיזוג ותעלות אוויר, מבפנים. הברשה ושאיבה של 3,600W עם סינון HEPA, בשיטת ניקוי אמריקאית.</p>
       <div class="ctas">
-        <a class="btn btn-primary" href="#quote">קבלת הצעת מחיר</a>
-        <a class="btn btn-ghost" href="#quote" data-open-wizard>התאמת הצעה אישית</a>
-        <a class="btn btn-ghost" href="#work"><Icon name="play" />צפו בתוצאות</a>
+        <a class="btn btn-primary" href="#price">חשבו מחיר בדקה</a>
+        <a class="btn btn-ghost" href={waLink()} data-track="Contact"><Icon name="whatsapp" />וואטסאפ</a>
+        <a class="btn btn-ghost hide-sm" href="#work"><Icon name="play" />צפו בעבודות</a>
       </div>
     </div>
     <ul class="promises">
@@ -26,64 +35,105 @@ import { guarantees, waLink } from '../data/site';
     </ul>
   </div>
   <p class="credit">צילום אמיתי מעבודה שלנו</p>
-  <a class="wa-float" href={waLink()} aria-label="כתבו לנו בוואטסאפ"><Icon name="whatsapp" /></a>
 </section>
 
 <style>
-  .hero {
-    position: relative; isolation: isolate; overflow: clip; color: #fff;
-    min-height: min(calc(100svh - 72px), 860px);
-    display: grid; align-items: end;
-    background: var(--duct);
-  }
-  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-  .shade {
-    position: absolute; inset: 0; z-index: -1;
-    background:
-      linear-gradient(to left, rgb(6 18 38 / .78) 0%, rgb(6 18 38 / .45) 45%, rgb(6 18 38 / .1) 75%),
-      linear-gradient(to top, rgb(6 18 38 / .92) 0%, rgb(6 18 38 / .35) 45%, rgb(6 18 38 / 0) 70%);
-  }
+  .hero { position: relative; isolation: isolate; overflow: clip; color: #fff; min-height: min(calc(100svh - 72px), 900px); display: grid; align-items: end; background: var(--duct); }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; }
+  .shade { position: absolute; inset: 0; z-index: -2;
+    background: linear-gradient(to left, rgb(5 16 34 / .82) 0%, rgb(5 16 34 / .5) 42%, rgb(5 16 34 / .12) 75%),
+                linear-gradient(to top, rgb(5 16 34 / .95) 0%, rgb(5 16 34 / .35) 48%, rgb(5 16 34 / 0) 72%); }
+  .air { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
   .content { display: grid; gap: var(--space-l); padding-block: var(--space-l) var(--space-m); }
-  .copy { display: grid; gap: var(--space-s); max-width: 40rem; }
-  h1 { color: #fff; font-size: clamp(2.4rem, 1.5rem + 3.6vw, 4.8rem); letter-spacing: -0.03em; line-height: 1.02; text-shadow: 0 2px 30px rgb(0 0 0 / .25); }
-  .sub { font-size: var(--step-1); line-height: 1.5; color: #dbe8f3; max-width: 34ch; }
-  .ctas { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: .6rem; }
-  .btn-ghost { background: rgb(255 255 255 / .1); color: #fff; border-color: rgb(255 255 255 / .55); backdrop-filter: blur(6px); }
+  .copy { display: grid; gap: 1.1rem; max-width: 56rem; justify-items: start; }
+  .copy .sub, .copy .offer { max-width: 44rem; }
+
+  .offer { display: inline-flex; align-items: center; gap: .7rem; padding: .35rem .5rem .35rem .9rem; border-radius: 999px; text-decoration: none; color: #fff;
+    background: rgb(5 16 34 / .55); border: 1px solid rgb(44 195 181 / .55); backdrop-filter: blur(8px); font-size: .95rem; line-height: 1.3; max-width: 100%; }
+  .offer:hover { color: #fff; border-color: var(--turq); background: rgb(5 16 34 / .7); }
+  .o-tag { background: var(--turq); color: var(--turq-ink); font-family: var(--display); font-weight: 800; padding: .2rem .7rem; border-radius: 999px; white-space: nowrap; font-size: .85rem; }
+  .o-txt b { font-family: var(--display); font-weight: 800; color: #9ff0e6; }
+  .offer :global(.icon) { width: 1.1rem; height: 1.1rem; flex: none; }
+
+  h1 { color: #fff; font-size: clamp(2.5rem, 1.4rem + 4.2vw, 5.4rem); letter-spacing: -0.035em; line-height: .98; text-shadow: 0 2px 40px rgb(0 0 0 / .3); }
+  h1 .l1, h1 .l2 { display: block; }
+  h1 .l2 { color: #bfeee8; }
+  .sub { font-size: var(--step-1); line-height: 1.5; color: #d5e3ef; max-width: 36ch; }
+  .ctas { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: .3rem; }
+  .btn-ghost { background: rgb(255 255 255 / .08); color: #fff; border-color: rgb(255 255 255 / .5); backdrop-filter: blur(6px); }
   .btn-ghost:hover { background: #fff; color: var(--navy); }
 
-  .promises { list-style: none; margin: 0; padding: var(--space-s) 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; border-top: 1px solid rgb(255 255 255 / .22); }
+  .promises { list-style: none; margin: 0; padding: var(--space-s) 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; border-top: 1px solid rgb(255 255 255 / .2); }
   .promises li { display: flex; gap: .55rem; align-items: start; line-height: 1.3; }
   .promises :global(.icon) { color: var(--turq); stroke-width: 2.6; margin-top: .15rem; }
   .promises span { display: grid; }
   .promises b { font-family: var(--display); font-weight: 800; }
-  .promises small { color: #b9cde0; font-size: .86rem; }
-
-  .credit { position: absolute; top: 1rem; inset-inline-end: max(16px, env(safe-area-inset-right, 0px)); font-size: .8rem; color: rgb(255 255 255 / .75); background: rgb(6 18 38 / .4); padding: .2rem .6rem; border-radius: 999px; }
-  .wa-float { position: absolute; inset-inline-end: max(16px, env(safe-area-inset-right, 0px)); bottom: var(--space-m); width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: var(--turq); color: var(--turq-ink); box-shadow: 0 10px 28px -8px rgb(0 0 0 / .5); }
-  .wa-float :global(.icon) { width: 28px; height: 28px; }
+  .promises small { color: #b2c7da; font-size: .86rem; }
+  .credit { position: absolute; top: 1rem; inset-inline-end: max(16px, env(safe-area-inset-right, 0px)); font-size: .78rem; color: rgb(255 255 255 / .75); background: rgb(5 16 34 / .45); padding: .2rem .6rem; border-radius: 999px; margin: 0; }
 
   @media (max-width: 980px) { .promises { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 760px) {
     .hero { min-height: calc(100svh - 72px - 72px); }
-    .shade { background: linear-gradient(to top, rgb(6 18 38 / .95) 0%, rgb(6 18 38 / .6) 45%, rgb(6 18 38 / .15) 80%); }
-    .ctas .btn { flex: 1 1 100%; }
-    .ctas .btn-ghost { flex: 1 1 0; min-width: 0; font-size: .92rem; padding-inline: .6em; white-space: nowrap; }
+    .shade { background: linear-gradient(to top, rgb(5 16 34 / .96) 0%, rgb(5 16 34 / .62) 48%, rgb(5 16 34 / .15) 82%); }
+    .ctas .btn { flex: 1 1 0; }
+    .ctas .btn-primary { flex-basis: 100%; }
+    .hide-sm { display: none; }
     .promises { display: none; }
-    .wa-float { display: none; }
+    .offer { font-size: .82rem; }
   }
-
   @media (prefers-reduced-motion: no-preference) {
-    .copy > * { animation: rise .9s var(--ease-out) both; }
-    .copy > :nth-child(2) { animation-delay: .08s; }
-    .copy > :nth-child(3) { animation-delay: .16s; }
-    .bg { animation: settle 2.4s var(--ease-out) both; }
+    .copy > * { animation: rise 1s var(--ease-out) both; }
+    .copy > :nth-child(2) { animation-delay: .06s; } .copy > :nth-child(3) { animation-delay: .14s; } .copy > :nth-child(4) { animation-delay: .22s; }
+    .bg { animation: settle 2.6s var(--ease-out) both; }
   }
-  @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
-  @keyframes settle { from { transform: scale(1.08); } }
+  @keyframes rise { from { opacity: 0; transform: translateY(20px); filter: blur(4px); } }
+  @keyframes settle { from { transform: scale(1.1); } }
 </style>
 
 <script>
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll<HTMLVideoElement>('.hero video').forEach((v) => { v.pause(); v.removeAttribute('autoplay'); });
+  // Dust in the air that turns into clean airflow as the visitor scrolls: the page's one authored moment.
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const cv = document.querySelector<HTMLCanvasElement>('[data-air]');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) document.querySelectorAll<HTMLVideoElement>('.hero video').forEach((v) => { v.pause(); v.removeAttribute('autoplay'); });
+  if (hero && cv && !reduce) {
+    const ctx = cv.getContext('2d')!;
+    let w = 0, h = 0, dpr = 1, visible = true, clean = 0, mx = -999, my = -999;
+    const N = innerWidth < 760 ? 70 : 140;
+    type P = { x: number; y: number; r: number; vx: number; vy: number; seed: number };
+    const ps: P[] = [];
+    const resize = () => { dpr = Math.min(2, devicePixelRatio || 1); w = cv.clientWidth; h = cv.clientHeight; cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    resize(); addEventListener('resize', resize);
+    for (let i = 0; i < N; i++) ps.push({ x: Math.random() * w, y: Math.random() * h, r: .6 + Math.random() * 2.2, vx: (Math.random() - .5) * .25, vy: (Math.random() - .3) * .2, seed: Math.random() * 1000 });
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(hero);
+    addEventListener('scroll', () => { const r = hero.getBoundingClientRect(); clean = Math.min(1, Math.max(0, -r.top / (r.height * .55))); }, { passive: true });
+    hero.addEventListener('pointermove', (e) => { const r = hero.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+    hero.addEventListener('pointerleave', () => { mx = my = -999; });
+    let t = 0;
+    const tick = () => {
+      requestAnimationFrame(tick);
+      if (!visible) return;
+      t += 1; ctx.clearRect(0, 0, w, h);
+      // the clean front sweeps from the right (reading start) to the left
+      const front = w * (1 - clean * 1.25);
+      for (const p of ps) {
+        const isClean = p.x > front;
+        const dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
+        if (d2 < 14000) { const f = (14000 - d2) / 14000; p.vx += dx * f * .004; p.vy += dy * f * .004; }
+        if (isClean) { p.vx += (-1.6 - p.vx) * .05; p.vy += (Math.sin((t + p.seed) * .02) * .3 - p.vy) * .05; }
+        else { p.vx += Math.sin((t + p.seed) * .01) * .006; p.vy += Math.cos((t + p.seed) * .013) * .004; p.vx *= .985; p.vy *= .985; }
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -20) { p.x = w + 10; p.y = Math.random() * h; p.vx = (Math.random() - .5) * .25; }
+        if (p.x > w + 20) p.x = -10; if (p.y < -20) p.y = h + 10; if (p.y > h + 20) p.y = -10;
+        if (isClean) {
+          ctx.strokeStyle = 'rgba(159, 240, 230, .55)'; ctx.lineWidth = p.r * .7; ctx.lineCap = 'round';
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx * 10, p.y - p.vy * 10); ctx.stroke();
+        } else {
+          ctx.fillStyle = `rgba(214, 196, 168, ${.25 + p.r * .12})`;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+    };
+    tick();
   }
 </script>

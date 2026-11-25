@@ -1,0 +1,73 @@
+---
+import Icon from './Icon.astro';
+const items = [
+  { id: 'smell', t: 'ריח לא נעים כשמדליקים', pain: 'מדליקים את המזגן אחרי כמה חודשים, ובשניות הראשונות הבית מתמלא בריח טחב.', why: 'לחות ואבק שהצטברו במגש הניקוז, במאייד ובתעלות. כשהמזגן עובד, האוויר עובר דרכם ומביא את הריח לחדר.', fix: 'מנקים את המאייד ואת מגש הניקוז, מברישים ושואבים את התעלות, ומסיימים בבישום וחיטוי.', img: '/img/grille-open.webp', alt: 'תריס פתוח בתקרה, והתעלה מאחוריו' },
+  { id: 'dust', t: 'אבק שחוזר יום אחרי שניקיתם', pain: 'מנגבים את הרהיטים, ויום אחר כך יש עליהם שוב שכבה אפורה.', why: 'שכבת אבק שנדבקה לדפנות התעלות. כל הפעלה של המזגן מעיפה חלק ממנה לחדרים.', fix: 'מברשת מסתובבת משחררת את השכבה מהדפנות, ומערכת שאיבה של 3,600W עם סינון HEPA מוציאה אותה החוצה.', img: '/img/dust-bag.webp', alt: 'שק שאיבה מלא אבק מתוך תעלות' },
+  { id: 'black', t: 'כתמים שחורים סביב הפתחים', pain: 'מסביב לפתחי היציאה בתקרה מופיעים כתמים אפורים־שחורים שלא יורדים בניגוב.', why: 'אבק ולחות שמצטברים בפתח ובתעלה שמאחוריו. אם יש עובש נראה לעין, צריך לטפל גם במקור הלחות.', fix: 'מנקים את הפתחים ואת התעלה שמאחוריהם, ומתעדים לפני ואחרי כדי שתראו מה יצא.', img: '/img/hose-duct.webp', alt: 'צינור שאיבה בתוך פתח תעלה' },
+  { id: 'filter', t: 'שטפתי פילטרים, ולא השתנה כלום', pain: 'שטפתם את הפילטרים או הזמנתם טכנאי שניקה אותם, והריח והאבק נשארו.', why: 'הפילטר עוצר רק חלק מהאבק. מה שעבר אותו נמצא בתוך התעלות ובמאייד, ושם שטיפת פילטר לא מגיעה.', fix: 'ניקוי של המערכת מבפנים: יחידה, מגש ניקוז ותעלות, לא רק הפילטר שליד התריס.', img: '/img/filter-wash.webp', alt: 'שטיפת פילטר מזגן' },
+];
+---
+<section class="section sym" aria-labelledby="sym-title">
+  <div class="wrap stack">
+    <h2 id="sym-title">מה מרגישים בבית, ומה באמת קורה בתוך המזגן</h2>
+    <div class="box" data-sym>
+      <div class="tabs" role="tablist" aria-label="בעיות נפוצות">
+        {items.map((it, i) => <button role="tab" id={`tab-${it.id}`} aria-controls={`pan-${it.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}><span>{it.t}</span><Icon name="arrow" /></button>)}
+      </div>
+      {items.map((it, i) => (
+        <div class="pan" role="tabpanel" id={`pan-${it.id}`} aria-labelledby={`tab-${it.id}`} hidden={i !== 0}>
+          <figure><img src={it.img} alt={it.alt} width="900" height="1120" loading="lazy" /><figcaption>צילום מעבודה שלנו</figcaption></figure>
+          <div class="txt">
+            <p class="pain">{it.pain}</p>
+            <dl>
+              <div><dt>למה זה קורה</dt><dd>{it.why}</dd></div>
+              <div><dt>מה אנחנו עושים</dt><dd>{it.fix}</dd></div>
+            </dl>
+            <a class="btn btn-navy" href="#price">בדקו כמה זה יעלה אצלכם</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .box { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 2fr); gap: var(--space-m); align-items: start; }
+  .tabs { display: grid; gap: .4rem; }
+  .tabs button { display: flex; justify-content: space-between; align-items: center; gap: .8rem; text-align: start; padding: 1rem 1.1rem; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.05rem; color: var(--navy); cursor: pointer; transition: background-color .25s, color .25s, border-color .25s; }
+  .tabs button :global(.icon) { opacity: 0; transition: opacity .25s, transform .3s var(--ease-out); }
+  .tabs button:hover { border-color: var(--blue); }
+  .tabs button[aria-selected="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .tabs button[aria-selected="true"] :global(.icon) { opacity: 1; color: var(--turq); transform: translateX(-4px); }
+  .pan { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--space-m); align-items: center; background: var(--paper); border-radius: 16px; padding: clamp(1rem, .8rem + 1vw, 1.6rem); box-shadow: 0 30px 60px -45px rgb(10 42 98 / .5); animation: panIn .5s var(--ease-out); }
+  figure { margin: 0; }
+  figure img { width: 100%; aspect-ratio: 4/4.4; object-fit: cover; border-radius: 10px; }
+  figcaption { font-size: .8rem; color: var(--muted); margin-top: .35rem; }
+  .txt { display: grid; gap: 1.1rem; }
+  .pain { font-family: var(--display); font-weight: 800; font-size: var(--step-2); line-height: 1.25; color: var(--navy); }
+  dl { margin: 0; display: grid; gap: .9rem; }
+  dt { font-weight: 700; color: var(--blue); font-size: .9rem; letter-spacing: .02em; }
+  dd { margin: .2rem 0 0; color: var(--ink); }
+  .txt .btn { justify-self: start; }
+  @keyframes panIn { from { opacity: 0; transform: translateY(10px); } }
+  @media (max-width: 900px) { .box { grid-template-columns: 1fr; } .tabs { grid-auto-flow: column; grid-auto-columns: minmax(70%, 1fr); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .3rem; } .tabs button { scroll-snap-align: start; } }
+  @media (max-width: 620px) { .pan { grid-template-columns: 1fr; } figure img { aspect-ratio: 16/10; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-sym]').forEach((box) => {
+    const tabs = [...box.querySelectorAll<HTMLButtonElement>('[role=tab]')];
+    const select = (t: HTMLButtonElement, focus = false) => {
+      tabs.forEach((x) => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')!)!.hidden = !on; });
+      if (focus) t.focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(t));
+      t.addEventListener('keydown', (e) => {
+        const k = e.key; let j = -1;
+        if (k === 'ArrowLeft' || k === 'ArrowDown') j = (i + 1) % tabs.length; if (k === 'ArrowRight' || k === 'ArrowUp') j = (i - 1 + tabs.length) % tabs.length;
+        if (j >= 0) { e.preventDefault(); select(tabs[j], true); }
+      });
+    });
+  });
+</script>

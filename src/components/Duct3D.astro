@@ -1,0 +1,82 @@
+---
+import { journey } from '../data/site';
+---
+<section class="d3 on-duct" id="inside" aria-labelledby="d3-title">
+  <div class="pin" data-d3>
+    <div class="wrap head">
+      <h2 id="d3-title">מה קורה בתוך התעלה</h2>
+      <p class="lede">החלק שלא רואים מהתריס. גללו, ותראו איך מנקים תעלה מבפנים.</p>
+    </div>
+    <div class="stage">
+      <canvas class="gl" data-gl aria-hidden="true"></canvas>
+      <img class="poster" src="/img/duct-3d.webp" alt="הדמיה תלת־ממדית של תעלת מיזוג נקייה עם זרימת אוויר" width="1600" height="700" loading="lazy" />
+      <ol class="steps wrap">
+        {journey.map((s, i) => <li data-step={i} class={i === 0 ? 'on' : ''}><span class="n">{i + 1}</span><div><h3>{s.t}</h3><p>{s.d}</p></div></li>)}
+      </ol>
+      <div class="bar" aria-hidden="true"><span data-bar></span></div>
+    </div>
+    <p class="wrap note">הדמיה ממוחשבת להמחשת התהליך. הצילומים האמיתיים מהעבודות נמצאים בהמשך.</p>
+  </div>
+</section>
+
+<style>
+  .d3 { background: radial-gradient(120% 80% at 70% 40%, #0f2a4f 0%, var(--duct) 60%); }
+  .pin { min-height: calc(100svh - 72px); display: grid; grid-template-rows: auto 1fr auto; padding-block: var(--space-m) 1rem; }
+  .head { display: grid; gap: .4rem; }
+  .stage { position: relative; min-height: 420px; }
+  .gl, .poster { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .poster { object-fit: cover; opacity: 0; transition: opacity .4s; }
+  .no-gl .poster { opacity: 1; }
+  .no-gl .gl { display: none; }
+  .steps { position: absolute; inset-block-start: 1rem; inset-inline-start: 0; inset-inline-end: 0; list-style: none; margin: 0 auto; display: grid; gap: .3rem; max-width: 1200px; pointer-events: none; }
+  .steps li { width: min(340px, 100%); display: grid; grid-template-columns: 2rem 1fr; gap: .7rem; padding: .55rem .8rem; border-radius: 10px; opacity: .38; transition: opacity .35s var(--ease-out), background-color .35s, transform .35s var(--ease-out); }
+  .steps li.on { opacity: 1; background: rgb(8 24 47 / .72); backdrop-filter: blur(8px); transform: translateX(-6px); box-shadow: 0 10px 30px -14px rgb(0 0 0 / .6); }
+  .steps .n { width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--on-duct-muted); font-family: var(--display); font-weight: 800; font-size: .9rem; font-variant-numeric: tabular-nums; }
+  .steps li.on .n { background: var(--turq); border-color: var(--turq); color: var(--turq-ink); }
+  .steps h3 { font-size: 1.05rem; }
+  .steps p { color: var(--on-duct-muted); font-size: .93rem; line-height: 1.45; display: none; }
+  .steps li.on p { display: block; }
+  .bar { position: absolute; inset-inline: max(16px, env(safe-area-inset-left, 0px)); bottom: .6rem; height: 3px; background: rgb(255 255 255 / .12); border-radius: 3px; overflow: hidden; }
+  .bar span { display: block; height: 100%; width: 100%; background: var(--turq); transform-origin: right; transform: scaleX(0); }
+  .note { font-size: .82rem; color: var(--on-duct-muted); margin-top: .6rem; }
+  @media (max-width: 760px) {
+    .stage { min-height: 62vh; }
+    .steps { inset-block-start: auto; inset-block-end: 1.4rem; }
+    .steps li:not(.on) { display: none; }
+    .steps li { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .steps li { opacity: 1; } .steps li p { display: block; } .steps { position: static; padding-top: 1rem; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-d3]');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGL = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; } })();
+  if (root && (reduce || !hasGL)) root.classList.add('no-gl');
+  if (root && !reduce && hasGL) {
+    let started = false;
+    const io = new IntersectionObserver(async ([e]) => {
+      if (!e.isIntersecting || started) return;
+      started = true; io.disconnect();
+      const [{ initDuct }, { gsap }, { ScrollTrigger }] = await Promise.all([import('../scripts/duct-scene'), import('gsap'), import('gsap/ScrollTrigger')]);
+      gsap.registerPlugin(ScrollTrigger);
+      const canvas = root.querySelector<HTMLCanvasElement>('[data-gl]')!;
+      const scene = initDuct(canvas);
+      if (!scene) { root.classList.add('no-gl'); return; }
+      const steps = root.querySelectorAll<HTMLElement>('.steps li');
+      const bar = root.querySelector<HTMLElement>('[data-bar]')!;
+      const cuts = [0, .2, .34, .62, .82];
+      ScrollTrigger.create({
+        trigger: root, start: 'top 72px', end: '+=320%', pin: true, scrub: true,
+        onUpdate: (st) => {
+          const p = st.progress; scene.setProgress(p);
+          let i = 0; cuts.forEach((c, k) => { if (p >= c) i = k; });
+          steps.forEach((s, k) => s.classList.toggle('on', k === i));
+          bar.style.transform = `scaleX(${p})`;
+        },
+      });
+      ScrollTrigger.refresh();
+    }, { rootMargin: '600px 0px' });
+    io.observe(root);
+  }
+</script>

@@ -1,8 +1,8 @@
 ---
 import Icon from './Icon.astro';
 import { business, faq } from '../data/site';
-interface Props { showFaq?: boolean }
-const { showFaq = true } = Astro.props;
+interface Props { showFaq?: boolean; wizard?: boolean }
+const { showFaq = true, wizard = true } = Astro.props;
 const wa = business.whatsapp ?? '';
 ---
 {showFaq && (
@@ -14,7 +14,7 @@ const wa = business.whatsapp ?? '';
 </section>
 )}
 
-<section class="section quote" id="quote" aria-labelledby="quote-title">
+{wizard && (<section class="section quote" id="quote" aria-labelledby="quote-title">
   <div class="wrap q-grid">
     <div class="stack q-intro">
       <h2 id="quote-title">ספרו לנו על המערכת, ונחזור עם הצעה.</h2>
@@ -58,7 +58,7 @@ const wa = business.whatsapp ?? '';
       </div>
     </form>
   </div>
-</section>
+</section>)}
 
 <style>
   .faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: var(--space-l); }

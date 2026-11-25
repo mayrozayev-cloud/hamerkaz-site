@@ -1,0 +1,27 @@
+---
+// Paid-campaign landing page: one offer, one action, no navigation leaks. noindex.
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Symptoms from '../../components/Symptoms.astro';
+import PriceCalc from '../../components/PriceCalc.astro';
+import QuoteWizard from '../../components/QuoteWizard.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import Proof from '../../components/Proof.astro';
+const reels = [1, 2, 3].map((n) => ({ src: `/video/reel${n}.mp4`, poster: `/video/reel${n}.jpg` }));
+---
+<Base title="הטבת חורף בניקוי מזגנים ותעלות" description="ניקוי מזגן מיני מרכזי ותעלות מיזוג, עם בישום וחיטוי במתנה. חשבו מחיר בדקה ושלחו לנו בוואטסאפ." noindex bare>
+  <Hero />
+  <PriceCalc />
+  <Symptoms />
+  <section class="section on-duct" id="work"><div class="wrap stack"><h2>ככה זה נראה אצלנו</h2>
+    <div class="reels">{reels.map((r) => <video controls playsinline preload="none" poster={r.poster} width="720" height="1280"><source src={r.src} type="video/mp4" /></video>)}</div>
+  </div></section>
+  <Proof part="tst" />
+  <QuoteWizard wizard={false} />
+  <FinalCTA />
+</Base>
+<style>
+  .reels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-m); }
+  .reels video { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 8px; background: #000; }
+  @media (max-width: 760px) { .reels { grid-template-columns: repeat(3, 72%); overflow-x: auto; scroll-snap-type: x mandatory; } .reels video { scroll-snap-align: start; } }
+</style>
